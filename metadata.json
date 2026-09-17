@@ -1,0 +1,6 @@
+{
+  "name": "Planix",
+  "description": "Planix — سیستم جامع مدیریت زمان، برنامه‌ریزی هوشمند روزانه و هفتگی، وظایف، اهداف، عادت‌ها و بهره‌وری شخصی با راهنمای ممد",
+  "requestFramePermissions": ["microphone"],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}
