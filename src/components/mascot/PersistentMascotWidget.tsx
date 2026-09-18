@@ -103,7 +103,7 @@ export const PersistentMascotWidget: React.FC = () => {
     <aside
       id="persistent-mascot-widget"
       aria-label={`دستیار هوشمند ${MASCOT_INFO.shortName}`}
-      className="fixed z-30 bottom-[calc(4.75rem+var(--safe-bottom,0px))] right-3.5 sm:bottom-6 sm:right-6 pointer-events-auto select-none"
+      className="hidden sm:block fixed z-30 bottom-6 left-6 pointer-events-auto select-none"
       dir="rtl"
     >
       {/* Mini Companion Popover when expanded */}

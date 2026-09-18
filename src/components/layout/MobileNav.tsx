@@ -25,6 +25,7 @@ import {
   Sparkles,
   Sun,
   Moon,
+  Grid,
 } from 'lucide-react';
 import { motion, AnimatePresence } from 'motion/react';
 import { MascotAvatar } from '../mascot/MascotAvatar';
@@ -183,16 +184,11 @@ export const MobileNav: React.FC<MobileNavProps> = ({ drawerOpen, setDrawerOpen 
                   minHeight: 'calc(3.5rem + var(--safe-top))',
                 }}
               >
-                <div className="flex items-center gap-2.5">
-                  <div className="w-8 h-8 rounded-xl overflow-hidden bg-slate-950 border border-purple-500/30 flex items-center justify-center shrink-0">
-                    <img
-                      src="/logo.png"
-                      alt="لوگوی Planix"
-                      className="w-full h-full object-cover"
-                      referrerPolicy="no-referrer"
-                    />
+                <div className="flex items-center gap-2">
+                  <div className="w-8 h-8 rounded-xl bg-purple-950/60 border border-purple-800/40 text-purple-400 flex items-center justify-center shrink-0">
+                    <Grid className="w-4 h-4" />
                   </div>
-                  <span className="font-extrabold text-sm text-slate-100">منوی بخش‌های <span className="text-purple-400 font-bold">Planix</span></span>
+                  <span className="font-extrabold text-sm text-slate-100">منوی بخش‌ها</span>
                 </div>
 
                 <div className="flex items-center gap-2">

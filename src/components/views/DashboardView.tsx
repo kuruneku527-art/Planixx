@@ -65,47 +65,7 @@ export const DashboardView: React.FC = () => {
   return (
     <div id="dashboard-view" className="space-y-4 sm:space-y-6 max-w-7xl mx-auto pb-24 sm:pb-8" dir="rtl">
       
-      {/* Top Welcome Banner matching screenshot with Fox in empty left space */}
-      <div id="dashboard-welcome-banner" className="relative overflow-hidden rounded-2xl sm:rounded-3xl bg-gradient-to-r from-purple-950/70 via-slate-900 to-indigo-950/60 border border-purple-800/40 p-3.5 sm:p-6 shadow-xl">
-        <div className="relative z-10 flex items-center justify-between gap-3">
-          
-          {/* Left: Fox Mascot in the empty space (interactive trigger for the tour) */}
-          <div
-            onClick={() => openMascotTour(0)}
-            className="flex items-center gap-2.5 cursor-pointer group"
-            title="کلیک برای باز کردن راهنمای مرحله‌به‌مرحله تصویری روباه"
-          >
-            <div className="w-14 h-14 sm:w-16 sm:h-16 rounded-2xl overflow-hidden bg-slate-950/80 border-2 border-purple-500/50 shadow-lg shadow-purple-950/60 shrink-0 group-hover:scale-105 transition-transform">
-              <img
-                src="/mascot.png"
-                alt="روباه راهنما ممد"
-                className="w-full h-full object-cover object-top"
-                referrerPolicy="no-referrer"
-              />
-            </div>
-            <span className="hidden sm:inline-flex text-[11px] text-purple-300/80 bg-purple-950/60 border border-purple-500/30 px-2 py-0.5 rounded-full font-medium group-hover:text-purple-200 transition">
-              راهنمای تصویری 🦊
-            </span>
-          </div>
-
-          {/* Right: Date Badge & Welcome Title */}
-          <div className="text-right flex flex-col items-start">
-            <div id="dashboard-welcome-date-badge" className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-purple-900/60 text-purple-200 text-xs font-semibold mb-2 border border-purple-700/40 shadow-sm">
-              <Sparkles className="w-3.5 h-3.5 text-purple-300" />
-              <span>{todayJalali}</span>
-            </div>
-            <h2 id="dashboard-welcome-title" className="text-lg sm:text-2xl font-black text-slate-100">
-              {settings.userName ? `سلام ${settings.userName}، روزت بخیر!` : 'سلام، روزت بخیر!'}
-            </h2>
-          </div>
-
-        </div>
-
-        {/* Ambient background glow */}
-        <div id="dashboard-welcome-glow" className="absolute top-0 left-0 w-72 h-72 bg-purple-600/15 rounded-full blur-3xl pointer-events-none" />
-      </div>
-
-      {/* Action Buttons Bar (Exactly like screenshot) */}
+      {/* Action Buttons Bar (Clean, immediate access) */}
       <div className="grid grid-cols-2 gap-2.5 sm:gap-3">
         {/* Left (in RTL): شروع تمرکز */}
         <button

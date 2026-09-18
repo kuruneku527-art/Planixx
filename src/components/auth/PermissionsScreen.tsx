@@ -67,27 +67,6 @@ export const PermissionsScreen: React.FC<PermissionsScreenProps> = ({ onComplete
       <div className="absolute top-1/4 left-1/3 w-80 h-80 bg-purple-600/10 rounded-full blur-3xl pointer-events-none" />
       <div className="absolute bottom-1/4 left-1/2 w-80 h-80 bg-indigo-600/10 rounded-full blur-3xl pointer-events-none" />
 
-      {/* Top Header */}
-      <header className="w-full flex items-center justify-between px-6 py-3 shrink-0 relative z-10">
-        <div className="flex items-center gap-2.5">
-          <div className="w-9 h-9 rounded-xl bg-slate-900 border border-purple-500/30 overflow-hidden flex items-center justify-center p-1 shadow-md">
-            <img
-              src="/logo.png"
-              alt="Planix"
-              className="w-full h-full object-contain"
-              referrerPolicy="no-referrer"
-            />
-          </div>
-          <span className="text-base font-black text-white tracking-wide">
-            Planix
-          </span>
-        </div>
-        <div className="flex items-center gap-1 text-xs text-purple-400 font-semibold bg-purple-950/60 border border-purple-800/40 px-3 py-1 rounded-full">
-          <Sparkles className="w-3.5 h-3.5 text-purple-300" />
-          <span>مرحله دوم: دسترسی‌ها</span>
-        </div>
-      </header>
-
       {/* Main Content Area */}
       <main className="w-full max-w-lg mx-auto px-4 sm:px-6 my-auto py-4 relative z-10 flex flex-col items-center">
         <div className="w-full bg-slate-900/90 backdrop-blur-xl border border-slate-800 rounded-3xl p-6 sm:p-8 shadow-2xl shadow-purple-950/30">

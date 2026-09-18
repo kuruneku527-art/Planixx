@@ -182,9 +182,9 @@ const AppContent: React.FC = () => {
     return cleanup;
   }, []);
 
-  // 1. App Launch: Isolated, pristine Splash Screen (~1.4s)
+  // 1. App Launch: Isolated, pristine Splash Screen (~450ms)
   if (!isSplashDone) {
-    return <SplashScreen onComplete={() => setIsSplashDone(true)} minDuration={1400} />;
+    return <SplashScreen onComplete={() => setIsSplashDone(true)} minDuration={450} />;
   }
 
   // 2. Authentication Gate: Login Screen must precede Dashboard

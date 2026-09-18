@@ -56,11 +56,11 @@ const DEFAULT_SETTINGS: UserSettings = {
   notificationsEnabled: true,
   syncEnabled: false,
   userName: '',
-  isLoggedIn: false,
-  hasCompletedOnboarding: false,
-  hasCompletedPermissionSetup: false,
-  isFirstLaunch: true,
-  hasSeenMascotTour: false,
+  isLoggedIn: true,
+  hasCompletedOnboarding: true,
+  hasCompletedPermissionSetup: true,
+  isFirstLaunch: false,
+  hasSeenMascotTour: true,
 };
 
 class DatabaseService {

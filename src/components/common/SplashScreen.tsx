@@ -8,7 +8,7 @@ interface SplashScreenProps {
 
 export const SplashScreen: React.FC<SplashScreenProps> = ({
   onFinish,
-  minDuration = 1400,
+  minDuration = 450,
 }) => {
   const [isFading, setIsFading] = useState(false);
   const [isDone, setIsDone] = useState(false);
@@ -21,7 +21,7 @@ export const SplashScreen: React.FC<SplashScreenProps> = ({
     const doneTimer = setTimeout(() => {
       setIsDone(true);
       if (onFinish) onFinish();
-    }, minDuration + 400);
+    }, minDuration + 200);
 
     return () => {
       clearTimeout(fadeTimer);
@@ -35,7 +35,7 @@ export const SplashScreen: React.FC<SplashScreenProps> = ({
     <div
       id="app-splash-screen"
       dir="rtl"
-      className={`fixed inset-0 z-[9999] flex flex-col items-center justify-between bg-slate-950 text-slate-100 select-none transition-opacity duration-400 ease-out overflow-hidden ${
+      className={`fixed inset-0 z-[9999] flex flex-col items-center justify-between bg-slate-950 text-slate-100 select-none transition-opacity duration-200 ease-out overflow-hidden ${
         isFading ? 'opacity-0 pointer-events-none' : 'opacity-100'
       }`}
       style={{
