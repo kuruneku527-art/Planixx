@@ -52,7 +52,7 @@ export class ErrorBoundary extends React.Component<Props, State> {
 
   private handleCopyError = () => {
     const { error, errorInfo } = this.state;
-    const text = `خطای پلنر هوشمند:\nپیام: ${error?.message || 'نامشخص'}\nکد: ${error?.stack || ''}\nپشته کامپوننت: ${errorInfo?.componentStack || ''}`;
+    const text = `خطای برنامه Planix:\nپیام: ${error?.message || 'نامشخص'}\nکد: ${error?.stack || ''}\nپشته کامپوننت: ${errorInfo?.componentStack || ''}`;
     if (navigator.clipboard) {
       navigator.clipboard.writeText(text).then(() => {
         this.setState({ copied: true });
@@ -79,7 +79,7 @@ export class ErrorBoundary extends React.Component<Props, State> {
             </div>
 
             <h1 className="text-xl sm:text-2xl font-black text-slate-100 mb-2">
-              مشکلی در اجرای پلنر رخ داد
+              مشکلی در اجرای برنامه Planix رخ داد
             </h1>
 
             <p className="text-sm text-slate-300 mb-4 leading-relaxed">

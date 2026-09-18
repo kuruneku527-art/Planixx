@@ -74,7 +74,7 @@ export const Header: React.FC<HeaderProps> = ({ onMobileMenuToggle }) => {
     settings: { title: 'تنظیمات برنامه', icon: SettingsIcon },
   };
 
-  const currentViewInfo = viewTitles[activeView] || { title: 'پلنر', icon: LayoutDashboard };
+  const currentViewInfo = viewTitles[activeView] || { title: 'Planix', icon: LayoutDashboard };
   const CurrentIcon = currentViewInfo.icon;
 
   const todayJalaliFormatted = formatToJalali(new Date(), 'full', settings.persianDigits);

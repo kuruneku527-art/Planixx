@@ -165,12 +165,13 @@ export const MascotTourModal: React.FC = () => {
     if (settings.soundEnabled || settings.soundEffectsEnabled) {
       soundEffects.playSuccessNotification();
     }
-    updateSettings({ hasSeenMascotTour: true });
+    updateSettings({ hasSeenMascotTour: true, hasCompletedOnboarding: true });
     setMascotTourOpen(false);
-    showToast('راهنمای تصویری بخش‌ها کامل شد 🦊', 'success');
+    showToast('به برنامه Planix خوش آمدید 🦊', 'success');
   };
 
   const handleGoToRealView = () => {
+    updateSettings({ hasSeenMascotTour: true, hasCompletedOnboarding: true });
     setActiveView(currentStep.viewKey);
     setMascotTourOpen(false);
     showToast(`ورود به بخش «${currentStep.title}»`, 'info');
@@ -212,20 +213,21 @@ export const MascotTourModal: React.FC = () => {
         <div className="flex items-center gap-1.5 shrink-0">
           <button
             type="button"
+            onClick={handleFinish}
+            className="py-1 px-2.5 rounded-xl bg-slate-800/90 hover:bg-slate-700 border border-slate-700 text-slate-300 hover:text-white text-xs font-bold transition flex items-center gap-1 cursor-pointer active:scale-95"
+            title="رد کردن راهنما و ورود مستقیم به برنامه"
+          >
+            <span>رد کردن و ورود</span>
+            <X className="w-3.5 h-3.5 text-slate-400" />
+          </button>
+
+          <button
+            type="button"
             onClick={handleGoToRealView}
             className="p-1.5 rounded-lg bg-purple-950/70 hover:bg-purple-900 border border-purple-600/40 text-purple-300 transition cursor-pointer active:scale-95"
             title="ورود مستقیم به این بخش"
           >
             <ExternalLink className="w-4 h-4" />
-          </button>
-
-          <button
-            type="button"
-            onClick={handleFinish}
-            className="p-1.5 rounded-lg bg-slate-800 hover:bg-slate-700 text-slate-400 hover:text-white transition cursor-pointer active:scale-95"
-            title="بستن"
-          >
-            <X className="w-4 h-4" />
           </button>
         </div>
       </header>
@@ -371,29 +373,33 @@ export const MascotTourModal: React.FC = () => {
           />
         </div>
 
-        <div className="flex items-center justify-between gap-3">
+        <div className="flex items-center justify-between gap-2">
           {/* Previous Button */}
           <button
             type="button"
             onClick={handlePrev}
             disabled={isFirstStep}
-            className="py-2 px-4 rounded-xl bg-slate-900 hover:bg-slate-800 disabled:opacity-30 disabled:pointer-events-none text-slate-300 border border-slate-800 text-xs sm:text-sm font-bold flex items-center gap-1.5 transition cursor-pointer active:scale-95"
+            className="py-2 px-3 sm:px-4 rounded-xl bg-slate-900 hover:bg-slate-800 disabled:opacity-30 disabled:pointer-events-none text-slate-300 border border-slate-800 text-xs sm:text-sm font-bold flex items-center gap-1.5 transition cursor-pointer active:scale-95 shrink-0"
           >
             <ArrowRight className="w-4 h-4" />
             <span>بخش قبلی</span>
           </button>
 
-          {/* Step Count */}
-          <div className="text-xs font-bold text-slate-400">
-            بخش <span className="text-purple-300 font-black">{formatDigits(currentStepIndex + 1)}</span> از{' '}
-            <span className="text-slate-200 font-black">{formatDigits(totalSteps)}</span>
-          </div>
+          {/* Skip / Step Count */}
+          <button
+            type="button"
+            onClick={handleFinish}
+            className="text-[11px] sm:text-xs font-semibold text-slate-400 hover:text-purple-300 py-1 px-2 rounded-lg transition cursor-pointer"
+            title="رد کردن راهنما و ورود مستقیم به برنامه"
+          >
+            رد کردن راهنما
+          </button>
 
           {/* Next / Finish Button */}
           <button
             type="button"
             onClick={handleNext}
-            className="py-2 px-5 rounded-xl bg-gradient-to-r from-purple-600 to-indigo-600 hover:from-purple-500 hover:to-indigo-500 text-white font-black text-xs sm:text-sm flex items-center gap-1.5 shadow-lg shadow-purple-600/30 border border-purple-400/40 transition cursor-pointer active:scale-98"
+            className="py-2 px-4 sm:px-5 rounded-xl bg-gradient-to-r from-purple-600 to-indigo-600 hover:from-purple-500 hover:to-indigo-500 text-white font-black text-xs sm:text-sm flex items-center gap-1.5 shadow-lg shadow-purple-600/30 border border-purple-400/40 transition cursor-pointer active:scale-98 shrink-0"
           >
             <span>{isLastStep ? 'پایان تور ✨' : 'بخش بعدی'}</span>
             {!isLastStep ? <ArrowLeft className="w-4 h-4" /> : <Check className="w-4 h-4" />}

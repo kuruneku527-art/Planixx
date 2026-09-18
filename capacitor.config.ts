@@ -2,7 +2,7 @@ import type { CapacitorConfig } from '@capacitor/cli';
 
 const config: CapacitorConfig = {
   appId: 'com.planner.smartapp',
-  appName: 'Planer1',
+  appName: 'Planix',
   webDir: 'dist',
 };
 

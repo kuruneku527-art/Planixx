@@ -544,7 +544,7 @@ class NativeBridgeService {
           await navigator.share({
             files: [file],
             title: defaultFilename,
-            text: 'نسخه کامل پشتیبان اطلاعات پلنر هوشمند',
+            text: 'نسخه کامل پشتیبان اطلاعات برنامه Planix',
           });
           return { success: true, message: 'فایل پشتیبان با موفقیت ذخیره یا به اشتراک گذاشته شد.' };
         }

@@ -1,7 +1,7 @@
 {
   "id": "/",
-  "name": "پلنر — برنامه‌ریزی هوشمند، زندگی بهتر",
-  "short_name": "پلنر",
+  "name": "Planix — برنامه‌ریزی هوشمند، زندگی بهتر",
+  "short_name": "Planix",
   "description": "سیستم جامع مدیریت زمان، برنامه‌ریزی روزانه، وظایف، پروژه‌ها، اهداف، عادت‌ها، یادداشت‌ها و بهره‌وری شخصی",
   "start_url": "/",
   "scope": "/",
@@ -15,19 +15,19 @@
     {
       "src": "/logo.png",
       "sizes": "192x192",
-      "type": "image/jpeg",
+      "type": "image/png",
       "purpose": "any"
     },
     {
       "src": "/logo.png",
       "sizes": "512x512",
-      "type": "image/jpeg",
+      "type": "image/png",
       "purpose": "any"
     },
     {
       "src": "/logo.png",
       "sizes": "512x512",
-      "type": "image/jpeg",
+      "type": "image/png",
       "purpose": "maskable"
     }
   ]

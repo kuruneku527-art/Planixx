@@ -40,7 +40,7 @@ export const WelcomeModal: React.FC = () => {
         updateSettings({ isFirstLaunch: false });
         setTimeout(() => openMascotTour(0), 200);
       }}
-      title="آشنایی با پلنر هوشمند"
+      title="آشنایی با برنامه Planix"
       subtitle="دستیار برنامه‌ریزی، مدیریت زمان و اهداف"
       maxWidth="md"
       position="center"
@@ -54,7 +54,7 @@ export const WelcomeModal: React.FC = () => {
               <div className="w-16 h-16 rounded-2xl overflow-hidden bg-slate-950 border border-purple-500/40 shadow-xl shadow-purple-900/50 flex items-center justify-center">
                 <img
                   src="/logo.png"
-                  alt="لوگوی پلنر"
+                  alt="لوگوی Planix"
                   className="w-full h-full object-cover"
                   referrerPolicy="no-referrer"
                 />

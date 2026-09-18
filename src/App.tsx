@@ -19,7 +19,6 @@ import { PermissionSetupModal } from './components/common/PermissionSetupModal';
 import { SplashScreen } from './components/auth/SplashScreen';
 import { LoginScreen } from './components/auth/LoginScreen';
 import { PermissionsScreen } from './components/auth/PermissionsScreen';
-import { OnboardingScreen } from './components/auth/OnboardingScreen';
 
 // Views
 import { DashboardView } from './components/views/DashboardView';
@@ -208,17 +207,7 @@ const AppContent: React.FC = () => {
     );
   }
 
-  // 4. Onboarding / Introduction Gate: Clean, responsive walkthrough
-  if (!settings.hasCompletedOnboarding) {
-    return (
-      <>
-        <OnboardingScreen onComplete={() => {}} />
-        <ToastContainer />
-      </>
-    );
-  }
-
-  // 5. Complete Access: Enter Main Planix Application
+  // 4. Complete Access: Enter Main Planix Application
   return <MainLayout />;
 };
 

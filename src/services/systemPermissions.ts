@@ -214,23 +214,7 @@ class SystemPermissionsService {
         res = Notification.permission;
       }
 
-      // If granted and service worker is available, send test notification
-      if (res === 'granted') {
-        const sw = await this.getServiceWorker();
-        if (sw) {
-          try {
-            await sw.showNotification('پلنر — اعلانات با موفقیت فعال شد', {
-              body: 'از این پس یادآورها، آلارم وظایف و رویدادهای شما سر موعد دقیق اعلام می‌شوند.',
-              icon: '/logo.png',
-              badge: '/logo.png',
-              dir: 'rtl',
-              lang: 'fa',
-              tag: 'welcome-notification',
-            } as any);
-          } catch {}
-        }
-      }
-
+      // If granted, notify listeners
       const live = await this.getLivePermissionsStatus();
       this.notifyListeners(live);
       return res;
