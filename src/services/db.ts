@@ -55,8 +55,11 @@ const DEFAULT_SETTINGS: UserSettings = {
   soundEffectsEnabled: true,
   notificationsEnabled: true,
   syncEnabled: false,
-  userName: 'کاربر گرامی',
-  isFirstLaunch: false,
+  userName: '',
+  isLoggedIn: false,
+  hasCompletedOnboarding: false,
+  hasCompletedPermissionSetup: false,
+  isFirstLaunch: true,
   hasSeenMascotTour: false,
 };
 

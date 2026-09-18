@@ -103,7 +103,7 @@ export const SettingsView: React.FC = () => {
       <div>
         <h2 className="text-xl font-bold text-slate-100 flex items-center gap-2">
           <SettingsIcon className="w-6 h-6 text-purple-400" />
-          <span>تنظیمات و شخصی‌سازی پلنر</span>
+          <span>تنظیمات و شخصی‌سازی Planix</span>
         </h2>
         <p className="text-xs text-slate-400 mt-1">
           تنظیم مشخصات کاربری، ترجیحات نمایش ارقام فارسی، صداها و تایمر تمرکز
@@ -428,25 +428,50 @@ export const SettingsView: React.FC = () => {
         </div>
 
         {/* App Info & Logo Card */}
-        <div className="p-6 rounded-2xl bg-slate-900/90 border border-slate-800 flex flex-col sm:flex-row items-center gap-5">
-          <div className="w-20 h-20 rounded-2xl overflow-hidden bg-slate-950 border border-purple-500/30 shadow-xl shadow-purple-900/30 flex items-center justify-center shrink-0">
-            <img
-              src="/logo.png"
-              alt="لوگوی پلنر"
-              className="w-full h-full object-cover"
-              referrerPolicy="no-referrer"
-            />
-          </div>
-          <div className="text-center sm:text-right space-y-1">
-            <div className="flex items-center justify-center sm:justify-start gap-2">
-              <h4 className="font-extrabold text-base text-slate-100">اپلیکیشن مدیریت زمان و برنامه‌ریزی پلنر</h4>
-              <span className="text-[10px] px-2 py-0.5 rounded-full bg-purple-950 text-purple-300 border border-purple-800/50 font-mono font-bold">
-                v1.0.0
-              </span>
+        <div className="p-6 rounded-2xl bg-slate-900/90 border border-slate-800 flex flex-col sm:flex-row items-center justify-between gap-5">
+          <div className="flex flex-col sm:flex-row items-center gap-5">
+            <div className="w-16 h-16 sm:w-20 sm:h-20 rounded-2xl overflow-hidden bg-slate-950 border border-purple-500/30 shadow-xl shadow-purple-900/30 flex items-center justify-center p-2 shrink-0">
+              <img
+                src="/logo.png"
+                alt="لوگوی Planix"
+                className="w-full h-full object-contain"
+                referrerPolicy="no-referrer"
+              />
             </div>
-            <p className="text-xs text-slate-400 leading-relaxed">
-              سیستم جامع و آفلاین برای دستیابی به اهداف، مدیریت وظایف روزانه، بهبود عادات و تمرکز عمیق.
-            </p>
+            <div className="text-center sm:text-right space-y-1">
+              <div className="flex items-center justify-center sm:justify-start gap-2">
+                <h4 className="font-extrabold text-base text-slate-100">اپلیکیشن مدیریت زمان و برنامه‌ریزی Planix</h4>
+                <span className="text-[10px] px-2 py-0.5 rounded-full bg-purple-950 text-purple-300 border border-purple-800/50 font-mono font-bold">
+                  v1.2.0
+                </span>
+              </div>
+              <p className="text-xs text-slate-400 leading-relaxed">
+                سامانه هوشمند و آفلاین برای دستیابی به اهداف، مدیریت وظایف، برنامه‌ریزی روزانه، عادت‌ها و تمرکز عمیق.
+              </p>
+            </div>
+          </div>
+
+          <div className="flex flex-wrap items-center justify-center gap-2.5 shrink-0">
+            <button
+              type="button"
+              onClick={() => {
+                updateSettings({ hasCompletedOnboarding: false });
+                showToast('هدایت به بخش آشنایی با برنامه...', 'info');
+              }}
+              className="px-3.5 py-2 rounded-xl bg-slate-800 hover:bg-slate-700 text-slate-300 hover:text-white text-xs font-bold transition border border-slate-700 cursor-pointer"
+            >
+              مشاهده مجدد Onboarding
+            </button>
+            <button
+              type="button"
+              onClick={() => {
+                updateSettings({ isLoggedIn: false });
+                showToast('خروج از حساب انجام شد.', 'info');
+              }}
+              className="px-3.5 py-2 rounded-xl bg-rose-950/60 hover:bg-rose-900/80 text-rose-300 hover:text-rose-100 text-xs font-bold transition border border-rose-800/60 cursor-pointer"
+            >
+              خروج از حساب
+            </button>
           </div>
         </div>
 

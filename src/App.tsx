@@ -14,7 +14,12 @@ import { ToastContainer } from './components/common/ToastContainer';
 import { ConfirmationModal } from './components/common/ConfirmationModal';
 import { ActiveAlarmBanner } from './components/common/ActiveAlarmBanner';
 import { PermissionSetupModal } from './components/common/PermissionSetupModal';
-import { SplashScreen } from './components/common/SplashScreen';
+
+// Authentication, Permissions & Onboarding Lifecycle
+import { SplashScreen } from './components/auth/SplashScreen';
+import { LoginScreen } from './components/auth/LoginScreen';
+import { PermissionsScreen } from './components/auth/PermissionsScreen';
+import { OnboardingScreen } from './components/auth/OnboardingScreen';
 
 // Views
 import { DashboardView } from './components/views/DashboardView';
@@ -164,17 +169,63 @@ const MainLayout: React.FC = () => {
 
       {/* Global Toast Notifications */}
       <ToastContainer />
-
-      {/* Professional App Startup Splash Screen */}
-      <SplashScreen minDuration={1400} />
     </div>
   );
+};
+
+const AppContent: React.FC = () => {
+  const { settings } = useApp();
+  const [isSplashDone, setIsSplashDone] = React.useState(false);
+
+  // Initialize central Viewport & Safe Area sync across all lifecycle states
+  React.useEffect(() => {
+    const cleanup = viewportManager.init();
+    return cleanup;
+  }, []);
+
+  // 1. App Launch: Isolated, pristine Splash Screen (~1.4s)
+  if (!isSplashDone) {
+    return <SplashScreen onComplete={() => setIsSplashDone(true)} minDuration={1400} />;
+  }
+
+  // 2. Authentication Gate: Login Screen must precede Dashboard
+  if (!settings.isLoggedIn) {
+    return (
+      <>
+        <LoginScreen onComplete={() => {}} />
+        <ToastContainer />
+      </>
+    );
+  }
+
+  // 3. Permissions Setup Gate: Clean, explicit permission request
+  if (!settings.hasCompletedPermissionSetup) {
+    return (
+      <>
+        <PermissionsScreen onComplete={() => {}} />
+        <ToastContainer />
+      </>
+    );
+  }
+
+  // 4. Onboarding / Introduction Gate: Clean, responsive walkthrough
+  if (!settings.hasCompletedOnboarding) {
+    return (
+      <>
+        <OnboardingScreen onComplete={() => {}} />
+        <ToastContainer />
+      </>
+    );
+  }
+
+  // 5. Complete Access: Enter Main Planix Application
+  return <MainLayout />;
 };
 
 export default function App() {
   return (
     <AppProvider>
-      <MainLayout />
+      <AppContent />
     </AppProvider>
   );
 }

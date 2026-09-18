@@ -274,6 +274,9 @@ export interface UserSettings {
   userEmail?: string;
   userBio?: string;
   pinLock?: string;
+  isLoggedIn?: boolean;
+  hasCompletedOnboarding?: boolean;
+  hasCompletedPermissionSetup?: boolean;
   isFirstLaunch: boolean;
   hasSeenMascotTour?: boolean;
 }

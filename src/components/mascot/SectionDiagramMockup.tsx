@@ -33,18 +33,18 @@ export const SectionDiagramMockup: React.FC<SectionDiagramMockupProps> = ({
   onSelectCallout,
 }) => {
   return (
-    <div className="relative w-full rounded-2xl bg-slate-950/90 border border-purple-500/30 overflow-hidden shadow-2xl p-3 sm:p-4 text-slate-100 select-none" dir="rtl">
+    <div className="relative w-full max-h-[160px] sm:max-h-[200px] overflow-hidden rounded-xl bg-slate-950/90 border border-purple-500/30 shadow-lg p-2 text-slate-100 select-none max-w-md mx-auto flex flex-col justify-between" dir="rtl">
       
       {/* Visual Window Bar */}
-      <div className="flex items-center justify-between pb-2 mb-3 border-b border-slate-800/80 text-[11px] text-slate-400">
-        <div className="flex items-center gap-1.5">
-          <span className="w-2.5 h-2.5 rounded-full bg-rose-500/80 inline-block" />
-          <span className="w-2.5 h-2.5 rounded-full bg-amber-500/80 inline-block" />
-          <span className="w-2.5 h-2.5 rounded-full bg-emerald-500/80 inline-block" />
-          <span className="mr-2 font-mono text-[10px] text-purple-300">planix://app/{viewKey}</span>
+      <div className="flex items-center justify-between pb-1 mb-1.5 border-b border-slate-800/80 text-[10px] text-slate-400">
+        <div className="flex items-center gap-1">
+          <span className="w-2 h-2 rounded-full bg-rose-500/80 inline-block" />
+          <span className="w-2 h-2 rounded-full bg-amber-500/80 inline-block" />
+          <span className="w-2 h-2 rounded-full bg-emerald-500/80 inline-block" />
+          <span className="mr-1.5 font-mono text-[9px] text-purple-300">planix://{viewKey}</span>
         </div>
-        <span className="text-[10px] bg-purple-950/80 text-purple-300 border border-purple-800/50 px-2 py-0.5 rounded-md font-bold">
-          پیش‌نمایش تعاملی راهنما
+        <span className="text-[9px] bg-purple-950/80 text-purple-300 border border-purple-800/50 px-1.5 py-0.2 rounded-md font-bold">
+          نمای شماتیک بخش
         </span>
       </div>
 
@@ -76,11 +76,11 @@ export const SectionDiagramMockup: React.FC<SectionDiagramMockupProps> = ({
 
       {/* 1. DASHBOARD MOCKUP */}
       {viewKey === 'dashboard' && (
-        <div className="space-y-3 relative">
+        <div className="space-y-2 relative text-xs">
           {/* Banner with Badge 1 */}
-          <div className="relative p-3 sm:p-4 rounded-xl bg-gradient-to-r from-purple-950/80 via-slate-900 to-indigo-950/70 border border-purple-600/40 flex items-center justify-between">
+          <div className="relative p-2.5 sm:p-3 rounded-xl bg-gradient-to-r from-purple-950/80 via-slate-900 to-indigo-950/70 border border-purple-600/40 flex items-center justify-between">
             <div className="flex items-center gap-2">
-              <div className="w-9 h-9 rounded-xl bg-slate-950 border border-purple-400/50 overflow-hidden shrink-0">
+              <div className="w-8 h-8 rounded-lg bg-slate-950 border border-purple-400/50 overflow-hidden shrink-0">
                 <img src="/mascot.png" alt="ممد" className="w-full h-full object-cover" />
               </div>
               <span className="text-[10px] text-purple-300 bg-purple-900/60 px-2 py-0.5 rounded-full font-bold">
@@ -88,10 +88,10 @@ export const SectionDiagramMockup: React.FC<SectionDiagramMockupProps> = ({
               </span>
             </div>
             <div className="text-right">
-              <span className="text-[10px] bg-purple-900/80 text-purple-200 px-2 py-0.5 rounded-full inline-block mb-1">
+              <span className="text-[9px] bg-purple-900/80 text-purple-200 px-2 py-0.5 rounded-full inline-block mb-0.5">
                 سه شنبه ۲۴ شهریور ۱۴۰۵
               </span>
-              <h4 className="text-xs sm:text-sm font-black text-slate-100">سلام Mohanna، روزت بخیر!</h4>
+              <h4 className="text-xs sm:text-sm font-black text-slate-100">سلام کاربر گرامی، روزت بخیر!</h4>
             </div>
 
             {/* Indicator Badge 1 */}
@@ -102,13 +102,13 @@ export const SectionDiagramMockup: React.FC<SectionDiagramMockupProps> = ({
 
           {/* Action Buttons with Badge 2 */}
           <div className="relative grid grid-cols-2 gap-2">
-            <div className="py-2 px-2.5 rounded-xl bg-slate-900 border border-slate-700 text-[11px] font-bold text-slate-300 flex items-center justify-center gap-1.5">
-              <Timer className="w-3.5 h-3.5 text-purple-400" />
-              <span>شروع تمرکز</span>
-            </div>
             <div className="py-2 px-2.5 rounded-xl bg-gradient-to-r from-purple-600 to-indigo-600 text-white font-extrabold text-[11px] flex items-center justify-center gap-1.5 shadow-md shadow-purple-600/30">
               <Plus className="w-3.5 h-3.5 text-white" />
               <span>+ وظیفه جدید</span>
+            </div>
+            <div className="py-2 px-2.5 rounded-xl bg-slate-900 border border-slate-700 text-[11px] font-bold text-slate-300 flex items-center justify-center gap-1.5">
+              <Timer className="w-3.5 h-3.5 text-purple-400" />
+              <span>شروع تمرکز</span>
             </div>
 
             {/* Indicator Badge 2 */}
@@ -119,7 +119,7 @@ export const SectionDiagramMockup: React.FC<SectionDiagramMockupProps> = ({
 
           {/* 4 Metric Cards with Badge 3 */}
           <div className="relative grid grid-cols-2 gap-2">
-            <div className="p-2.5 rounded-xl bg-slate-900/90 border border-slate-800">
+            <div className="p-2 sm:p-2.5 rounded-xl bg-slate-900/90 border border-slate-800">
               <div className="flex justify-between items-center text-[10px] text-slate-400 mb-1">
                 <span className="font-bold text-slate-200">وظایف امروز</span>
                 <CheckSquare className="w-3.5 h-3.5 text-purple-400" />
@@ -130,25 +130,16 @@ export const SectionDiagramMockup: React.FC<SectionDiagramMockupProps> = ({
               </div>
             </div>
 
-            <div className="p-2.5 rounded-xl bg-slate-900/90 border border-slate-800">
+            <div className="p-2 sm:p-2.5 rounded-xl bg-slate-900/90 border border-slate-800">
               <div className="flex justify-between items-center text-[10px] text-slate-400 mb-1">
                 <span className="font-bold text-slate-200">رویدادها</span>
                 <CalendarIcon className="w-3.5 h-3.5 text-indigo-400" />
               </div>
               <span className="text-xs font-bold text-slate-200">۲ جلسه کاری</span>
-              <span className="text-[9px] text-slate-400 block mt-1">اولین: ۱۰:۳۰</span>
+              <span className="text-[9px] text-slate-400 block mt-0.5">اولین: ۱۰:۳۰</span>
             </div>
 
-            <div className="p-2.5 rounded-xl bg-slate-900/90 border border-slate-800">
-              <div className="flex justify-between items-center text-[10px] text-slate-400 mb-1">
-                <span className="font-bold text-slate-200">تمرکز امروز</span>
-                <Timer className="w-3.5 h-3.5 text-emerald-400" />
-              </div>
-              <span className="text-sm font-black text-emerald-400">۵۰ دقیقه</span>
-              <span className="text-[9px] text-slate-400 block mt-1">۲ سشن موفق</span>
-            </div>
-
-            <div className="p-2.5 rounded-xl bg-slate-900/90 border border-slate-800">
+            <div className="p-2 sm:p-2.5 rounded-xl bg-slate-900/90 border border-slate-800">
               <div className="flex justify-between items-center text-[10px] text-slate-400 mb-1">
                 <span className="font-bold text-slate-200">عادت‌ها</span>
                 <Flame className="w-3.5 h-3.5 text-amber-400" />
@@ -159,6 +150,15 @@ export const SectionDiagramMockup: React.FC<SectionDiagramMockupProps> = ({
               </div>
             </div>
 
+            <div className="p-2 sm:p-2.5 rounded-xl bg-slate-900/90 border border-slate-800">
+              <div className="flex justify-between items-center text-[10px] text-slate-400 mb-1">
+                <span className="font-bold text-slate-200">تمرکز امروز</span>
+                <Timer className="w-3.5 h-3.5 text-emerald-400" />
+              </div>
+              <span className="text-sm font-black text-emerald-400">۵۰ دقیقه</span>
+              <span className="text-[9px] text-slate-400 block mt-0.5">۲ سشن موفق</span>
+            </div>
+
             {/* Indicator Badge 3 */}
             <div className="absolute top-1/2 -right-2 -translate-y-1/2 w-6 h-6 rounded-full bg-gradient-to-tr from-purple-600 to-indigo-500 text-white font-black text-xs flex items-center justify-center shadow-lg shadow-purple-900/80 border border-purple-300 animate-pulse">
               ۳
@@ -167,7 +167,7 @@ export const SectionDiagramMockup: React.FC<SectionDiagramMockupProps> = ({
 
           {/* Quick Actions 6-Grid with Badge 4 */}
           <div className="relative p-2.5 rounded-xl bg-slate-900/80 border border-slate-800">
-            <span className="text-[10px] font-bold text-slate-300 flex items-center gap-1 mb-2">
+            <span className="text-[10px] font-bold text-slate-300 flex items-center gap-1 mb-1.5">
               <Zap className="w-3 h-3 text-purple-400" />
               دسترسی و ثبت سریع ⚡
             </span>
@@ -190,7 +190,7 @@ export const SectionDiagramMockup: React.FC<SectionDiagramMockupProps> = ({
 
       {/* 2. DAILY PLANNER MOCKUP */}
       {viewKey === 'daily_planner' && (
-        <div className="space-y-3 relative">
+        <div className="space-y-1.5 sm:space-y-2 relative">
           {/* Day Selector & Progress with Badge 1 */}
           <div className="relative p-2.5 rounded-xl bg-slate-900 border border-purple-500/30 flex items-center justify-between">
             <div className="flex items-center gap-2">
@@ -262,7 +262,7 @@ export const SectionDiagramMockup: React.FC<SectionDiagramMockupProps> = ({
 
       {/* 3. WEEKLY PLANNER MOCKUP */}
       {viewKey === 'weekly_planner' && (
-        <div className="space-y-3 relative">
+        <div className="space-y-1.5 sm:space-y-2 relative">
           {/* Week Header with Badge 1 */}
           <div className="relative p-2.5 rounded-xl bg-slate-900 border border-purple-500/30 flex items-center justify-between">
             <span className="text-xs font-bold text-purple-200">هفته چهارم شهریور ۱۴۰۵</span>
@@ -308,7 +308,7 @@ export const SectionDiagramMockup: React.FC<SectionDiagramMockupProps> = ({
 
       {/* 4. TASKS MOCKUP */}
       {viewKey === 'tasks' && (
-        <div className="space-y-3 relative">
+        <div className="space-y-1.5 sm:space-y-2 relative">
           {/* Filters Bar with Badge 1 */}
           <div className="relative flex items-center gap-1.5 overflow-x-auto pb-1">
             <span className="px-2.5 py-1 rounded-lg bg-purple-600 text-white text-[10px] font-bold">همه (۸)</span>
@@ -371,7 +371,7 @@ export const SectionDiagramMockup: React.FC<SectionDiagramMockupProps> = ({
 
       {/* 5. PROJECTS MOCKUP */}
       {viewKey === 'projects' && (
-        <div className="space-y-3 relative">
+        <div className="space-y-1.5 sm:space-y-2 relative">
           <div className="relative p-3 rounded-xl bg-slate-900 border border-blue-500/30">
             <div className="flex justify-between items-start mb-2">
               <div>
@@ -419,7 +419,7 @@ export const SectionDiagramMockup: React.FC<SectionDiagramMockupProps> = ({
 
       {/* 6. CALENDAR MOCKUP */}
       {viewKey === 'calendar' && (
-        <div className="space-y-3 relative">
+        <div className="space-y-1.5 sm:space-y-2 relative">
           <div className="relative p-2.5 rounded-xl bg-slate-900 border border-indigo-500/30 flex items-center justify-between">
             <span className="text-xs font-bold text-indigo-200">شهریور ۱۴۰۵ (سپتامبر ۲۰۲۶)</span>
             <span className="text-[10px] bg-indigo-950 text-indigo-300 px-2 py-0.5 rounded-full font-bold">امروز</span>
@@ -461,7 +461,7 @@ export const SectionDiagramMockup: React.FC<SectionDiagramMockupProps> = ({
 
       {/* 7. TIME MANAGEMENT MOCKUP */}
       {viewKey === 'time_management' && (
-        <div className="space-y-3 relative">
+        <div className="space-y-1.5 sm:space-y-2 relative">
           <div className="relative grid grid-cols-2 gap-2">
             <div className="p-2.5 rounded-xl bg-slate-900 border border-purple-800/40">
               <span className="text-[10px] text-slate-400 block">ساعات کار عمیق</span>
@@ -509,7 +509,7 @@ export const SectionDiagramMockup: React.FC<SectionDiagramMockupProps> = ({
 
       {/* 8. GOALS MOCKUP */}
       {viewKey === 'goals' && (
-        <div className="space-y-3 relative">
+        <div className="space-y-1.5 sm:space-y-2 relative">
           <div className="relative p-3 rounded-xl bg-slate-900 border border-emerald-500/30">
             <div className="flex justify-between items-center mb-2">
               <span className="text-xs font-bold text-slate-100">تسلط به زبان تخصصی و آیلتس</span>
@@ -540,7 +540,7 @@ export const SectionDiagramMockup: React.FC<SectionDiagramMockupProps> = ({
 
       {/* 9. HABITS MOCKUP */}
       {viewKey === 'habits' && (
-        <div className="space-y-3 relative">
+        <div className="space-y-1.5 sm:space-y-2 relative">
           <div className="relative p-3 rounded-xl bg-slate-900 border border-amber-500/30">
             <div className="flex justify-between items-center mb-2">
               <div className="flex items-center gap-1.5">
@@ -578,7 +578,7 @@ export const SectionDiagramMockup: React.FC<SectionDiagramMockupProps> = ({
 
       {/* 10. POMODORO MOCKUP */}
       {viewKey === 'pomodoro' && (
-        <div className="space-y-3 relative text-center">
+        <div className="space-y-1.5 sm:space-y-2 relative text-center">
           <div className="relative p-4 rounded-xl bg-slate-900 border border-purple-500/40 flex flex-col items-center">
             <div className="relative w-28 h-28 rounded-full border-4 border-purple-500/30 border-t-purple-500 flex flex-col items-center justify-center shadow-lg shadow-purple-900/40">
               <span className="text-2xl font-black font-mono text-purple-200">۲۵:۰۰</span>
@@ -610,7 +610,7 @@ export const SectionDiagramMockup: React.FC<SectionDiagramMockupProps> = ({
 
       {/* 11. NOTES MOCKUP */}
       {viewKey === 'notes' && (
-        <div className="space-y-3 relative">
+        <div className="space-y-1.5 sm:space-y-2 relative">
           <div className="relative p-2 rounded-xl bg-slate-900 border border-slate-800 flex items-center gap-2">
             <Search className="w-3.5 h-3.5 text-slate-400" />
             <span className="text-[10px] text-slate-500">جستجو در یادداشت‌ها و برچسب‌ها...</span>
@@ -643,7 +643,7 @@ export const SectionDiagramMockup: React.FC<SectionDiagramMockupProps> = ({
 
       {/* 12. REMINDERS MOCKUP */}
       {viewKey === 'reminders' && (
-        <div className="space-y-3 relative">
+        <div className="space-y-1.5 sm:space-y-2 relative">
           <div className="relative p-2.5 rounded-xl bg-slate-900 border border-rose-500/30 flex items-center justify-between">
             <div className="flex items-center gap-2">
               <Bell className="w-4 h-4 text-rose-400" />
@@ -661,6 +661,257 @@ export const SectionDiagramMockup: React.FC<SectionDiagramMockupProps> = ({
             <div className="absolute top-1/2 -left-2 w-6 h-6 rounded-full bg-purple-600 text-white font-black text-xs flex items-center justify-center shadow-lg border border-purple-300 animate-pulse">
               ۲
             </div>
+            <div className="absolute -bottom-2 -right-2 w-6 h-6 rounded-full bg-purple-600 text-white font-black text-xs flex items-center justify-center shadow-lg border border-purple-300 animate-pulse">
+              ۳
+            </div>
+            <div className="absolute -bottom-2 -left-2 w-6 h-6 rounded-full bg-purple-600 text-white font-black text-xs flex items-center justify-center shadow-lg border border-purple-300 animate-pulse">
+              ۴
+            </div>
+          </div>
+        </div>
+      )}
+
+      {/* 13. REPORTS MOCKUP */}
+      {viewKey === 'reports' && (
+        <div className="space-y-1.5 sm:space-y-2 relative">
+          <div className="relative grid grid-cols-3 gap-2">
+            <div className="p-2 rounded-xl bg-purple-950/60 border border-purple-700/50 text-center">
+              <span className="text-[9px] text-purple-300 block">وظایف تکمیل‌شده</span>
+              <span className="text-sm font-black text-white">۱۴</span>
+            </div>
+            <div className="p-2 rounded-xl bg-slate-900 border border-slate-800 text-center">
+              <span className="text-[9px] text-slate-400 block">نرخ بهره‌وری</span>
+              <span className="text-sm font-black text-emerald-400">۸۵٪</span>
+            </div>
+            <div className="p-2 rounded-xl bg-slate-900 border border-slate-800 text-center">
+              <span className="text-[9px] text-slate-400 block">دقایق تمرکز</span>
+              <span className="text-sm font-black text-indigo-400">۳۲۰</span>
+            </div>
+            <div className="absolute -top-2 -right-2 w-6 h-6 rounded-full bg-purple-600 text-white font-black text-xs flex items-center justify-center shadow-lg border border-purple-300 animate-pulse">
+              ۱
+            </div>
+          </div>
+
+          <div className="relative p-2.5 rounded-xl bg-slate-900/90 border border-slate-800">
+            <span className="text-[10px] font-bold text-slate-300 block mb-2">توزیع تمرکز در ۷ روز هفته (دقیقه)</span>
+            <div className="flex items-end justify-between h-14 pt-2 gap-1.5 px-1">
+              <div className="flex-1 bg-purple-500/80 rounded-t h-[70%]" title="ش" />
+              <div className="flex-1 bg-purple-500/80 rounded-t h-[90%]" title="ی" />
+              <div className="flex-1 bg-purple-500/80 rounded-t h-[60%]" title="د" />
+              <div className="flex-1 bg-purple-500/80 rounded-t h-[100%]" title="س" />
+              <div className="flex-1 bg-purple-500/80 rounded-t h-[80%]" title="چ" />
+              <div className="flex-1 bg-purple-500/80 rounded-t h-[40%]" title="پ" />
+              <div className="flex-1 bg-indigo-500/80 rounded-t h-[50%]" title="ج" />
+            </div>
+            <div className="absolute top-1/2 -left-2 w-6 h-6 rounded-full bg-purple-600 text-white font-black text-xs flex items-center justify-center shadow-lg border border-purple-300 animate-pulse">
+              ۲
+            </div>
+          </div>
+
+          <div className="relative flex items-center justify-between p-2 rounded-xl bg-slate-900 border border-slate-800">
+            <span className="text-[10px] text-slate-300">سهم پروژه‌ها: کار (۶۰٪) • شخصی (۴۰٪)</span>
+            <span className="text-[9px] text-purple-400 font-bold bg-purple-950/80 px-2 py-0.5 rounded-full">۷ روز اخیر</span>
+            <div className="absolute -bottom-2 -right-2 w-6 h-6 rounded-full bg-purple-600 text-white font-black text-xs flex items-center justify-center shadow-lg border border-purple-300 animate-pulse">
+              ۳
+            </div>
+            <div className="absolute -bottom-2 -left-2 w-6 h-6 rounded-full bg-purple-600 text-white font-black text-xs flex items-center justify-center shadow-lg border border-purple-300 animate-pulse">
+              ۴
+            </div>
+          </div>
+        </div>
+      )}
+
+      {/* 14. FILES MOCKUP */}
+      {viewKey === 'files' && (
+        <div className="space-y-1.5 sm:space-y-2 relative">
+          <div className="relative p-2 rounded-xl bg-slate-900 border border-slate-800 flex items-center gap-2">
+            <Search className="w-3.5 h-3.5 text-slate-400" />
+            <span className="text-[10px] text-slate-500">جستجوی اسناد، PDF و فایل‌های پیوست...</span>
+            <div className="absolute -top-2 -right-2 w-6 h-6 rounded-full bg-purple-600 text-white font-black text-xs flex items-center justify-center shadow-lg border border-purple-300 animate-pulse">
+              ۱
+            </div>
+          </div>
+
+          <div className="relative p-3 rounded-xl border border-dashed border-purple-500/50 bg-purple-950/20 text-center">
+            <span className="text-[10px] text-purple-300 font-bold block">برای بارگذاری، فایل را اینجا رها کنید</span>
+            <span className="text-[8px] text-slate-400">یا برای انتخاب کلیک نمایید</span>
+            <div className="absolute top-1/2 -left-2 w-6 h-6 rounded-full bg-purple-600 text-white font-black text-xs flex items-center justify-center shadow-lg border border-purple-300 animate-pulse">
+              ۲
+            </div>
+          </div>
+
+          <div className="relative grid grid-cols-2 gap-2">
+            <div className="p-2 rounded-xl bg-slate-900 border border-slate-800 flex items-center gap-2">
+              <div className="w-7 h-7 rounded-lg bg-rose-500/20 text-rose-400 flex items-center justify-center text-[10px] font-bold">PDF</div>
+              <div className="min-w-0">
+                <span className="text-[10px] font-bold text-slate-200 block truncate">طرح_پروژه.pdf</span>
+                <span className="text-[8px] text-slate-400">۱.۴ مگابایت</span>
+              </div>
+            </div>
+            <div className="p-2 rounded-xl bg-slate-900 border border-slate-800 flex items-center gap-2">
+              <div className="w-7 h-7 rounded-lg bg-indigo-500/20 text-indigo-400 flex items-center justify-center text-[10px] font-bold">PNG</div>
+              <div className="min-w-0">
+                <span className="text-[10px] font-bold text-slate-200 block truncate">نمودار_جریان.png</span>
+                <span className="text-[8px] text-slate-400">۴۲۰ کیلوبایت</span>
+              </div>
+            </div>
+            <div className="absolute -bottom-2 -right-2 w-6 h-6 rounded-full bg-purple-600 text-white font-black text-xs flex items-center justify-center shadow-lg border border-purple-300 animate-pulse">
+              ۳
+            </div>
+            <div className="absolute -bottom-2 -left-2 w-6 h-6 rounded-full bg-purple-600 text-white font-black text-xs flex items-center justify-center shadow-lg border border-purple-300 animate-pulse">
+              ۴
+            </div>
+          </div>
+        </div>
+      )}
+
+      {/* 15. TEMPLATES MOCKUP */}
+      {viewKey === 'templates' && (
+        <div className="space-y-1.5 sm:space-y-2 relative">
+          <div className="relative p-2.5 rounded-xl bg-purple-950/60 border border-purple-600/50 flex items-center justify-between">
+            <div>
+              <span className="text-xs font-bold text-white block">روتین صبحگاهی پربازده</span>
+              <span className="text-[9px] text-purple-300">۴ وظیفه زمان‌بندی‌شده • ۱۲۰ دقیقه</span>
+            </div>
+            <button className="px-2.5 py-1 rounded-lg bg-purple-600 hover:bg-purple-500 text-white text-[10px] font-bold">
+              اعمال روی امروز
+            </button>
+            <div className="absolute -top-2 -right-2 w-6 h-6 rounded-full bg-purple-600 text-white font-black text-xs flex items-center justify-center shadow-lg border border-purple-300 animate-pulse">
+              ۱
+            </div>
+          </div>
+
+          <div className="relative p-2.5 rounded-xl bg-slate-900 border border-slate-800 flex items-center justify-between">
+            <div>
+              <span className="text-xs font-bold text-slate-200 block">چک‌لیست پایان هفته</span>
+              <span className="text-[9px] text-slate-400">مرور اهداف و تنظیم برنامه شنبه</span>
+            </div>
+            <button className="px-2 py-1 rounded-lg bg-slate-800 text-slate-300 text-[10px]">
+              پیش‌نمایش
+            </button>
+            <div className="absolute top-1/2 -left-2 w-6 h-6 rounded-full bg-purple-600 text-white font-black text-xs flex items-center justify-center shadow-lg border border-purple-300 animate-pulse">
+              ۲
+            </div>
+          </div>
+
+          <div className="relative flex items-center justify-between pt-1">
+            <span className="text-[10px] text-slate-400">ذخیره روزهای طلایی کاری به عنوان الگو</span>
+            <button className="px-3 py-1.5 rounded-xl bg-slate-800 text-purple-400 text-xs font-bold border border-purple-500/30">
+              + ساخت قالب جدید
+            </button>
+            <div className="absolute -bottom-2 -right-2 w-6 h-6 rounded-full bg-purple-600 text-white font-black text-xs flex items-center justify-center shadow-lg border border-purple-300 animate-pulse">
+              ۳
+            </div>
+            <div className="absolute -bottom-2 -left-2 w-6 h-6 rounded-full bg-purple-600 text-white font-black text-xs flex items-center justify-center shadow-lg border border-purple-300 animate-pulse">
+              ۴
+            </div>
+          </div>
+        </div>
+      )}
+
+      {/* 16. SYNC MOCKUP */}
+      {viewKey === 'sync' && (
+        <div className="space-y-1.5 sm:space-y-2 relative">
+          <div className="relative p-3 rounded-xl bg-slate-900 border border-emerald-500/40 flex items-center justify-between">
+            <div className="flex items-center gap-2.5">
+              <span className="w-3 h-3 rounded-full bg-emerald-400 animate-ping" />
+              <div>
+                <span className="text-xs font-bold text-slate-100 block">وضعیت: کاملاً متصل و همگام</span>
+                <span className="text-[9px] text-emerald-400">آخرین همگام‌سازی: ۲ دقیقه پیش</span>
+              </div>
+            </div>
+            <button className="px-2.5 py-1 rounded-lg bg-purple-600 text-white text-[10px] font-bold">
+              سینک فوری
+            </button>
+            <div className="absolute -top-2 -right-2 w-6 h-6 rounded-full bg-purple-600 text-white font-black text-xs flex items-center justify-center shadow-lg border border-purple-300 animate-pulse">
+              ۱
+            </div>
+            <div className="absolute top-1/2 -left-2 w-6 h-6 rounded-full bg-purple-600 text-white font-black text-xs flex items-center justify-center shadow-lg border border-purple-300 animate-pulse">
+              ۲
+            </div>
+          </div>
+
+          <div className="relative p-2.5 rounded-xl bg-slate-900 border border-slate-800 space-y-1.5">
+            <div className="flex justify-between text-[10px] text-slate-300">
+              <span>همگام‌سازی وظایف و تقویم</span>
+              <span className="text-emerald-400 font-bold">فعال</span>
+            </div>
+            <div className="flex justify-between text-[10px] text-slate-300">
+              <span>همگام‌سازی فایل‌های پیوست</span>
+              <span className="text-emerald-400 font-bold">فعال</span>
+            </div>
+            <div className="absolute -bottom-2 -right-2 w-6 h-6 rounded-full bg-purple-600 text-white font-black text-xs flex items-center justify-center shadow-lg border border-purple-300 animate-pulse">
+              ۳
+            </div>
+            <div className="absolute -bottom-2 -left-2 w-6 h-6 rounded-full bg-purple-600 text-white font-black text-xs flex items-center justify-center shadow-lg border border-purple-300 animate-pulse">
+              ۴
+            </div>
+          </div>
+        </div>
+      )}
+
+      {/* 17. BACKUP MOCKUP */}
+      {viewKey === 'backup' && (
+        <div className="space-y-1.5 sm:space-y-2 relative">
+          <div className="relative grid grid-cols-2 gap-2">
+            <button className="p-3 rounded-xl bg-purple-950/60 border border-purple-600/50 text-center hover:bg-purple-900/60 transition">
+              <span className="text-xs font-bold text-white block">دانلود بکاپ کامل (JSON)</span>
+              <span className="text-[8px] text-purple-300 mt-0.5 block">خروجی ۱۰۰٪ آفلاین و امن</span>
+            </button>
+            <button className="p-3 rounded-xl bg-slate-900 border border-slate-700 text-center hover:bg-slate-800 transition">
+              <span className="text-xs font-bold text-slate-200 block">بازگردانی فایل (Restore)</span>
+              <span className="text-[8px] text-slate-400 mt-0.5 block">بارگذاری فایل بکاپ قبلی</span>
+            </button>
+            <div className="absolute -top-2 -right-2 w-6 h-6 rounded-full bg-purple-600 text-white font-black text-xs flex items-center justify-center shadow-lg border border-purple-300 animate-pulse">
+              ۱
+            </div>
+            <div className="absolute top-1/2 -left-2 w-6 h-6 rounded-full bg-purple-600 text-white font-black text-xs flex items-center justify-center shadow-lg border border-purple-300 animate-pulse">
+              ۲
+            </div>
+          </div>
+
+          <div className="relative p-2.5 rounded-xl bg-slate-900 border border-slate-800 flex items-center justify-between">
+            <div>
+              <span className="text-[10px] font-bold text-slate-200 block">آخرین پشتیبان: ۱۴۰۳/۰۶/۲۸</span>
+              <span className="text-[8px] text-slate-400">شامل ۶۴ وظیفه، ۸ پروژه و ۱۲ عادت</span>
+            </div>
+            <span className="text-[9px] text-emerald-400 bg-emerald-950/80 px-2 py-0.5 rounded-full font-bold">موفق</span>
+            <div className="absolute -bottom-2 -right-2 w-6 h-6 rounded-full bg-purple-600 text-white font-black text-xs flex items-center justify-center shadow-lg border border-purple-300 animate-pulse">
+              ۳
+            </div>
+            <div className="absolute -bottom-2 -left-2 w-6 h-6 rounded-full bg-purple-600 text-white font-black text-xs flex items-center justify-center shadow-lg border border-purple-300 animate-pulse">
+              ۴
+            </div>
+          </div>
+        </div>
+      )}
+
+      {/* 18. SETTINGS MOCKUP */}
+      {viewKey === 'settings' && (
+        <div className="space-y-1.5 sm:space-y-2 relative">
+          <div className="relative grid grid-cols-2 gap-2">
+            <div className="p-2.5 rounded-xl bg-purple-950/70 border border-purple-500 text-right">
+              <span className="text-xs font-bold text-white block">تم تاریک (Dark)</span>
+              <span className="text-[8px] text-purple-300">مخصوص شب و استراحت چشم</span>
+            </div>
+            <div className="p-2.5 rounded-xl bg-slate-900 border border-slate-700 text-right opacity-80">
+              <span className="text-xs font-bold text-slate-200 block">تم روشن (Light)</span>
+              <span className="text-[8px] text-slate-400">کنتراست بالا در محیط پرنور</span>
+            </div>
+            <div className="absolute -top-2 -right-2 w-6 h-6 rounded-full bg-purple-600 text-white font-black text-xs flex items-center justify-center shadow-lg border border-purple-300 animate-pulse">
+              ۱
+            </div>
+            <div className="absolute top-1/2 -left-2 w-6 h-6 rounded-full bg-purple-600 text-white font-black text-xs flex items-center justify-center shadow-lg border border-purple-300 animate-pulse">
+              ۲
+            </div>
+          </div>
+
+          <div className="relative p-2.5 rounded-xl bg-slate-900 border border-slate-800 flex items-center justify-between">
+            <div>
+              <span className="text-xs font-bold text-slate-200 block">ارقام فارسی و اعلان‌های صوتی</span>
+              <span className="text-[9px] text-slate-400">۱۲۳۴۵۶۷۸۹۰ • زنگ ملایم پایان تمرکز</span>
+            </div>
+            <span className="text-[9px] text-purple-400 bg-purple-950/80 px-2 py-0.5 rounded-full font-bold">فعال</span>
             <div className="absolute -bottom-2 -right-2 w-6 h-6 rounded-full bg-purple-600 text-white font-black text-xs flex items-center justify-center shadow-lg border border-purple-300 animate-pulse">
               ۳
             </div>

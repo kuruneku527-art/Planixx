@@ -324,6 +324,62 @@ html.light .bg-purple-600 * {
   color: #ffffff !important;
 }
 
+/* Dashboard Action Buttons & Welcome Banner in Light Mode */
+html.light #dashboard-primary-add-btn,
+[data-theme="light"] #dashboard-primary-add-btn {
+  background: linear-gradient(135deg, #7c3aed, #6366f1) !important;
+  color: #ffffff !important;
+  border-color: #6d28d9 !important;
+  box-shadow: 0 4px 14px rgba(124, 58, 237, 0.35) !important;
+}
+
+html.light #dashboard-primary-add-btn *,
+[data-theme="light"] #dashboard-primary-add-btn * {
+  color: #ffffff !important;
+  fill: #ffffff !important;
+}
+
+html.light #dashboard-secondary-focus-btn,
+[data-theme="light"] #dashboard-secondary-focus-btn {
+  background-color: #ffffff !important;
+  border-color: #cbd5e1 !important;
+  color: #0f172a !important;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05) !important;
+}
+
+html.light #dashboard-secondary-focus-btn:hover,
+[data-theme="light"] #dashboard-secondary-focus-btn:hover {
+  background-color: #f1f5f9 !important;
+  border-color: #94a3b8 !important;
+}
+
+html.light #dashboard-secondary-focus-btn span,
+[data-theme="light"] #dashboard-secondary-focus-btn span {
+  color: #0f172a !important;
+}
+
+html.light #dashboard-welcome-banner,
+[data-theme="light"] #dashboard-welcome-banner {
+  background: linear-gradient(135deg, #f5f3ff, #ffffff, #eef2ff) !important;
+  border-color: #ddd6fe !important;
+}
+
+html.light #dashboard-welcome-title,
+[data-theme="light"] #dashboard-welcome-title {
+  color: #1e1b4b !important;
+}
+
+html.light #dashboard-welcome-date-badge,
+[data-theme="light"] #dashboard-welcome-date-badge {
+  background-color: #7c3aed !important;
+  color: #ffffff !important;
+  border-color: #6d28d9 !important;
+}
+
+html.light #dashboard-welcome-date-badge * {
+  color: #ffffff !important;
+}
+
 /* Sidebar in Light Mode */
 html.light aside {
   background-color: #ffffff !important;
