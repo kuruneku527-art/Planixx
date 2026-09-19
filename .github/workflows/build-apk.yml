@@ -2,119 +2,39 @@ name: Build Android APK
 
 on:
   workflow_dispatch:
-  push:
-    branches:
-      - main
 
 permissions:
   contents: read
 
 jobs:
-  build-apk:
+  build:
     name: Build Android APK
     runs-on: ubuntu-latest
 
     steps:
-
-      # --------------------------------------------------
-      # 1. Checkout
-      # --------------------------------------------------
-      - name: Checkout repository
+      - name: Checkout
         uses: actions/checkout@v5
 
-      # --------------------------------------------------
-      # 2. Node.js
-      # --------------------------------------------------
-      - name: Setup Node.js
+      - name: Setup Node
         uses: actions/setup-node@v5
         with:
           node-version: 22
-          cache: npm
 
-      # --------------------------------------------------
-      # 3. Java
-      # --------------------------------------------------
       - name: Setup Java
         uses: actions/setup-java@v5
         with:
           distribution: temurin
           java-version: '21'
-          cache: gradle
 
-      # --------------------------------------------------
-      # 4. Gradle
-      # --------------------------------------------------
-      - name: Setup Gradle
-        uses: gradle/actions/setup-gradle@v6
-        with:
-          add-job-summary: on-failure
-
-      # --------------------------------------------------
-      # 5. Verify project structure
-      # --------------------------------------------------
-      - name: Verify project structure
-        shell: bash
+      - name: Show project
         run: |
-          echo "===== PROJECT STRUCTURE ====="
+          echo "PROJECT ROOT:"
           pwd
-          echo ""
-          echo "===== ROOT FILES ====="
+          echo "FILES:"
           ls -la
-          echo ""
-          echo "===== PACKAGE.JSON ====="
-          test -f package.json && echo "package.json: OK" || echo "ERROR: package.json not found"
-          echo ""
-          echo "===== ANDROID DIRECTORY ====="
-          test -d android && echo "android/: OK" || echo "ERROR: android/ directory not found"
 
-      # --------------------------------------------------
-      # 6. Install dependencies
-      # --------------------------------------------------
       - name: Install dependencies
         run: npm install
 
-      # --------------------------------------------------
-      # 7. Build web application
-      # --------------------------------------------------
-      - name: Build web application
+      - name: Build web app
         run: npm run build
-
-      # --------------------------------------------------
-      # 8. Verify web build
-      # --------------------------------------------------
-      - name: Verify web build
-        shell: bash
-        run: |
-          if [ ! -d "dist" ]; then
-            echo "ERROR: dist directory was not created."
-            exit 1
-          fi
-
-          echo "Web build completed successfully."
-          echo "Contents of dist:"
-          ls -la dist
-
-      # --------------------------------------------------
-      # 9. Sync Capacitor
-      # --------------------------------------------------
-      - name: Sync Capacitor
-        run: npx cap sync android
-
-      # --------------------------------------------------
-      # 10. Build Android APK
-      # --------------------------------------------------
-      - name: Build Android APK
-        working-directory: android
-        run: |
-          chmod +x gradlew
-          ./gradlew assembleDebug --stacktrace
-
-      # --------------------------------------------------
-      # 11. Upload APK
-      # --------------------------------------------------
-      - name: Upload APK
-        uses: actions/upload-artifact@v4
-        with:
-          name: Planix-debug-apk
-          path: android/app/build/outputs/apk/debug/app-debug.apk
-          if-no-files-found: error
