@@ -189,10 +189,10 @@ export const MascotTourModal: React.FC = () => {
       }}
       dir="rtl"
     >
-      {/* 1. TOP HEADER (Identical to Screenshot 2) */}
-      <header className="w-full max-w-2xl mx-auto px-2 py-1.5 shrink-0 flex items-center justify-between border-b border-purple-900/30">
-        <div className="flex items-center gap-2">
-          <div className="w-9 h-9 rounded-xl overflow-hidden bg-slate-900 border-2 border-amber-500/60 p-0.5 shadow-md shrink-0 flex items-center justify-center">
+      {/* 1. TOP HEADER (Clean, non-wrapping, perfectly aligned) */}
+      <header className="w-full max-w-2xl mx-auto px-2.5 py-2 shrink-0 flex items-center justify-between gap-2 border-b border-purple-900/30">
+        <div className="flex items-center gap-2 min-w-0">
+          <div className="w-8 h-8 sm:w-9 sm:h-9 rounded-xl overflow-hidden bg-slate-900 border-2 border-amber-500/60 p-0.5 shadow-md shrink-0 flex items-center justify-center">
             <img
               src="/mascot.png"
               alt="ممد"
@@ -200,11 +200,11 @@ export const MascotTourModal: React.FC = () => {
               referrerPolicy="no-referrer"
             />
           </div>
-          <div className="flex items-center gap-2">
-            <h3 className="text-xs sm:text-sm font-black text-white">
-              راهنمای تصویری مرحله‌به‌مرحله با ممد 🦊
+          <div className="flex items-center gap-2 min-w-0">
+            <h3 className="text-xs sm:text-sm font-black text-white truncate">
+              راهنمای گام‌به‌گام
             </h3>
-            <span className="text-[10px] px-2 py-0.5 rounded-full bg-purple-900/80 border border-purple-600/50 text-purple-200 font-bold">
+            <span className="text-[10px] sm:text-xs px-2.5 py-0.5 rounded-full bg-purple-900/90 border border-purple-500/50 text-purple-200 font-bold shrink-0 whitespace-nowrap shadow-sm">
               {formatDigits(currentStepIndex + 1)} از {formatDigits(totalSteps)}
             </span>
           </div>
@@ -214,7 +214,7 @@ export const MascotTourModal: React.FC = () => {
           <button
             type="button"
             onClick={handleFinish}
-            className="py-1 px-2.5 rounded-xl bg-slate-800/90 hover:bg-slate-700 border border-slate-700 text-slate-300 hover:text-white text-xs font-bold transition flex items-center gap-1 cursor-pointer active:scale-95"
+            className="py-1.5 px-2.5 rounded-xl bg-slate-800/90 hover:bg-slate-700 border border-slate-700 text-slate-300 hover:text-white text-xs font-bold transition flex items-center gap-1.5 cursor-pointer active:scale-95 shrink-0 whitespace-nowrap"
             title="رد کردن راهنما و ورود مستقیم به برنامه"
           >
             <span>رد کردن و ورود</span>
@@ -224,7 +224,7 @@ export const MascotTourModal: React.FC = () => {
           <button
             type="button"
             onClick={handleGoToRealView}
-            className="p-1.5 rounded-lg bg-purple-950/70 hover:bg-purple-900 border border-purple-600/40 text-purple-300 transition cursor-pointer active:scale-95"
+            className="p-1.5 rounded-xl bg-purple-950/70 hover:bg-purple-900 border border-purple-600/40 text-purple-300 transition cursor-pointer active:scale-95 shrink-0"
             title="ورود مستقیم به این بخش"
           >
             <ExternalLink className="w-4 h-4" />

@@ -246,6 +246,56 @@ class AndroidBridge(
         }
     }
 
+    /**
+     * Immediately trigger continuous alarm sound (Pomodoro completion or active reminder)
+     * Plays through USAGE_ALARM even if device is on Silent or Vibrate mode!
+     */
+    @JavascriptInterface
+    fun triggerImmediateAlarm(title: String, message: String, targetView: String?): Boolean {
+        return try {
+            AlarmSoundService.startAlarm(
+                activity,
+                "imm_${System.currentTimeMillis()}",
+                title,
+                message,
+                null,
+                targetView ?: "pomodoro"
+            )
+            true
+        } catch (e: Exception) {
+            e.printStackTrace()
+            false
+        }
+    }
+
+    /**
+     * Stop active ringing alarm and cancel foreground sound service
+     */
+    @JavascriptInterface
+    fun stopActiveAlarm(): Boolean {
+        return try {
+            AlarmSoundService.stopAlarm(activity)
+            true
+        } catch (e: Exception) {
+            e.printStackTrace()
+            false
+        }
+    }
+
+    /**
+     * Snooze active alarm for specified minutes
+     */
+    @JavascriptInterface
+    fun snoozeAlarm(alarmId: String, minutes: Int): Boolean {
+        return try {
+            AlarmSoundService.snoozeAlarm(activity, minutes)
+            true
+        } catch (e: Exception) {
+            e.printStackTrace()
+            false
+        }
+    }
+
     private val clockPackages = listOf(
         "com.google.android.deskclock",
         "com.sec.android.app.clockpackage",

@@ -16,10 +16,12 @@
     <!-- System Clock App Set Alarm Intent Permission -->
     <uses-permission android:name="com.android.alarm.permission.SET_ALARM" />
 
-    <!-- Hardware Features -->
+    <!-- Hardware Features & Continuous Audible Alarms -->
     <uses-permission android:name="android.permission.VIBRATE" />
     <uses-permission android:name="android.permission.WAKE_LOCK" />
     <uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED" />
+    <uses-permission android:name="android.permission.FOREGROUND_SERVICE" />
+    <uses-permission android:name="android.permission.FOREGROUND_SERVICE_MEDIA_PLAYBACK" tools:targetApi="34" />
 
     <!-- Media & Audio Selection via Storage Access Framework -->
     <uses-permission android:name="android.permission.READ_MEDIA_AUDIO" tools:targetApi="33" />
@@ -81,6 +83,13 @@
             </intent-filter>
         </activity>
 
+        <!-- Foreground Sound Service for Continuous Alarm Ringing -->
+        <service
+            android:name=".AlarmSoundService"
+            android:enabled="true"
+            android:exported="false"
+            android:foregroundServiceType="mediaPlayback" />
+
         <!-- Alarm Receiver for Scheduled Exact Alarms -->
         <receiver
             android:name=".AlarmReceiver"
@@ -88,6 +97,8 @@
             android:exported="false">
             <intent-filter>
                 <action android:name="com.planner.smartapp.ACTION_ALARM_TRIGGER" />
+                <action android:name="com.planner.smartapp.ACTION_STOP_ALARM" />
+                <action android:name="com.planner.smartapp.ACTION_SNOOZE_ALARM" />
             </intent-filter>
         </receiver>
 

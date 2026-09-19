@@ -1,12 +1,12 @@
 import React, { useState, useEffect } from 'react';
 import { reminderScheduler, TriggeredAlarm } from '../../services/reminderScheduler';
 import { useApp } from '../../context/AppContext';
-import { Bell, BellRing, Check, ExternalLink, X, Volume2 } from 'lucide-react';
+import { BellRing, ExternalLink, Square, Clock, VolumeX, Bell, X } from 'lucide-react';
 import { motion, AnimatePresence } from 'motion/react';
 import { toPersianDigits } from '../../utils/jalali';
 
 export const ActiveAlarmBanner: React.FC = () => {
-  const { setActiveView, refreshDb } = useApp();
+  const { setActiveView, refreshDb, showToast } = useApp();
   const [activeAlarms, setActiveAlarms] = useState<TriggeredAlarm[]>([]);
   const [showPermissionPrompt, setShowPermissionPrompt] = useState(false);
 
@@ -14,7 +14,6 @@ export const ActiveAlarmBanner: React.FC = () => {
     // Check if notifications are supported and prompt if not determined
     if (typeof window !== 'undefined' && 'Notification' in window) {
       if (Notification.permission === 'default') {
-        // Show gentle permission banner
         const dismissed = sessionStorage.getItem('planner_perm_prompt_dismissed');
         if (!dismissed) {
           setShowPermissionPrompt(true);
@@ -24,7 +23,7 @@ export const ActiveAlarmBanner: React.FC = () => {
 
     // Subscribe to triggered alarms
     const unsubscribe = reminderScheduler.subscribe((alarm) => {
-      setActiveAlarms((prev) => [alarm, ...prev.slice(0, 2)]);
+      setActiveAlarms((prev) => [alarm, ...prev.filter((a) => a.id !== alarm.id).slice(0, 2)]);
       refreshDb();
     });
 
@@ -34,18 +33,39 @@ export const ActiveAlarmBanner: React.FC = () => {
   }, [refreshDb]);
 
   const handleRequestPermission = async () => {
-    const res = await reminderScheduler.requestNotificationPermission();
+    await reminderScheduler.requestNotificationPermission();
     setShowPermissionPrompt(false);
     sessionStorage.setItem('planner_perm_prompt_dismissed', 'true');
   };
 
-  const dismissAlarm = (id: string) => {
-    setActiveAlarms((prev) => prev.filter((a) => a.id !== id));
+  const handleStopAlarm = (id: string) => {
+    reminderScheduler.stopAlarm();
+    setActiveAlarms((prev) => {
+      const remaining = prev.filter((a) => a.id !== id);
+      if (remaining.length === 0) {
+        reminderScheduler.stopAlarm();
+      }
+      return remaining;
+    });
+    showToast('زنگ متوقف شد', 'info');
+  };
+
+  const handleSnoozeAlarm = (alarm: TriggeredAlarm) => {
+    reminderScheduler.snoozeAlarm(alarm.id, 5);
+    setActiveAlarms((prev) => {
+      const remaining = prev.filter((a) => a.id !== alarm.id);
+      if (remaining.length === 0) {
+        reminderScheduler.stopAlarm();
+      }
+      return remaining;
+    });
+    showToast('زنگ برای ۵ دقیقه به تعویق افتاد', 'warning');
   };
 
   const handleNavigate = (alarm: TriggeredAlarm) => {
+    reminderScheduler.stopAlarm();
     setActiveView(alarm.targetView);
-    dismissAlarm(alarm.id);
+    setActiveAlarms((prev) => prev.filter((a) => a.id !== alarm.id));
   };
 
   return (
@@ -133,18 +153,28 @@ export const ActiveAlarmBanner: React.FC = () => {
                   <div className="flex items-center gap-2 mt-2 pt-2 border-t border-slate-800">
                     <button
                       type="button"
-                      onClick={() => handleNavigate(alarm)}
-                      className="flex-1 py-1 px-2.5 rounded-lg bg-purple-600 hover:bg-purple-500 text-white text-[11px] font-bold flex items-center justify-center gap-1.5 transition cursor-pointer active:scale-98"
+                      onClick={() => handleStopAlarm(alarm.id)}
+                      className="flex-1 py-1.5 px-3 rounded-lg bg-rose-600 hover:bg-rose-500 text-white text-[11px] font-bold flex items-center justify-center gap-1.5 shadow-md shadow-rose-900/30 transition cursor-pointer active:scale-98"
                     >
-                      <ExternalLink className="w-3 h-3" />
-                      <span>مشاهده</span>
+                      <Square className="w-3 h-3 fill-current" />
+                      <span>توقف</span>
                     </button>
                     <button
                       type="button"
-                      onClick={() => dismissAlarm(alarm.id)}
-                      className="py-1 px-2.5 rounded-lg bg-slate-800 hover:bg-slate-700 text-slate-200 text-[11px] font-semibold border border-slate-700 transition cursor-pointer"
+                      onClick={() => handleSnoozeAlarm(alarm)}
+                      className="flex-1 py-1.5 px-3 rounded-lg bg-amber-600 hover:bg-amber-500 text-white text-[11px] font-semibold flex items-center justify-center gap-1.5 shadow-md shadow-amber-900/30 transition cursor-pointer active:scale-98"
                     >
-                      متوجه شدم
+                      <Clock className="w-3 h-3" />
+                      <span>تعویق (۵ دقیقه)</span>
+                    </button>
+                    <button
+                      type="button"
+                      onClick={() => handleNavigate(alarm)}
+                      className="py-1.5 px-2.5 rounded-lg bg-slate-800 hover:bg-slate-700 text-slate-200 text-[11px] font-semibold border border-slate-700 transition cursor-pointer flex items-center justify-center gap-1"
+                      title="مشاهده جزئیات"
+                    >
+                      <ExternalLink className="w-3 h-3" />
+                      <span className="hidden xs:inline">مشاهده</span>
                     </button>
                   </div>
                 </div>

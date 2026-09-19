@@ -164,6 +164,57 @@ class SoundSynthesizer {
       }
     } catch {}
   }
+
+  private alarmInterval: any = null;
+  private isAlarmRinging: boolean = false;
+
+  /**
+   * Continuous audible phone-like alarm ring that loops until user explicitly stops or snoozes
+   */
+  startContinuousAlarm(volume: number = 0.85) {
+    if (this.isAlarmRinging) return;
+    this.isAlarmRinging = true;
+
+    // Play immediately
+    this.playAlarmChime(volume);
+
+    // Continuous loop every 1.3 seconds
+    if (this.alarmInterval) clearInterval(this.alarmInterval);
+    this.alarmInterval = setInterval(() => {
+      if (!this.isAlarmRinging) {
+        clearInterval(this.alarmInterval);
+        this.alarmInterval = null;
+        return;
+      }
+      this.playAlarmChime(volume);
+    }, 1300);
+
+    if (typeof navigator !== 'undefined' && 'vibrate' in navigator) {
+      try {
+        navigator.vibrate([400, 200, 400, 200, 600]);
+      } catch {}
+    }
+  }
+
+  /**
+   * Stop continuous alarm ringtone and cancel hardware vibration
+   */
+  stopContinuousAlarm() {
+    this.isAlarmRinging = false;
+    if (this.alarmInterval) {
+      clearInterval(this.alarmInterval);
+      this.alarmInterval = null;
+    }
+    if (typeof navigator !== 'undefined' && 'vibrate' in navigator) {
+      try {
+        navigator.vibrate(0);
+      } catch {}
+    }
+  }
+
+  isRinging(): boolean {
+    return this.isAlarmRinging;
+  }
 }
 
 export const soundEffects = new SoundSynthesizer();

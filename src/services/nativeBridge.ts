@@ -61,6 +61,9 @@ declare global {
       showNotification: (title: string, body: string, tag?: string, targetView?: string) => boolean;
       scheduleExactAlarm: (alarmJson: string) => boolean;
       cancelAlarm: (alarmId: string) => boolean;
+      triggerImmediateAlarm?: (title: string, message: string, targetView?: string) => boolean;
+      stopActiveAlarm?: () => boolean;
+      snoozeAlarm?: (alarmId: string, minutes: number) => boolean;
       setClockAlarm: (hour: number, minutes: number, message: string, skipUi: boolean, daysJson: string) => boolean;
       openClockApp: () => boolean;
       pickAudioFile: () => void;
@@ -349,6 +352,48 @@ class NativeBridgeService {
     }
 
     return true;
+  }
+
+  /**
+   * Immediately trigger audible alarm sound through native USAGE_ALARM (audible even in Silent/Vibrate mode)
+   */
+  public triggerImmediateAlarm(title: string, message: string, targetView?: string): boolean {
+    if (this.isNative() && window.AndroidBridge?.triggerImmediateAlarm) {
+      try {
+        return window.AndroidBridge.triggerImmediateAlarm(title, message, targetView);
+      } catch (err) {
+        console.warn('[NativeBridge] triggerImmediateAlarm error:', err);
+      }
+    }
+    return false;
+  }
+
+  /**
+   * Stop active ringing alarm and cancel foreground sound service
+   */
+  public stopActiveAlarm(): boolean {
+    if (this.isNative() && window.AndroidBridge?.stopActiveAlarm) {
+      try {
+        return window.AndroidBridge.stopActiveAlarm();
+      } catch (err) {
+        console.warn('[NativeBridge] stopActiveAlarm error:', err);
+      }
+    }
+    return false;
+  }
+
+  /**
+   * Snooze active alarm for specified minutes
+   */
+  public snoozeAlarm(alarmId: string, minutes: number = 5): boolean {
+    if (this.isNative() && window.AndroidBridge?.snoozeAlarm) {
+      try {
+        return window.AndroidBridge.snoozeAlarm(alarmId, minutes);
+      } catch (err) {
+        console.warn('[NativeBridge] snoozeAlarm error:', err);
+      }
+    }
+    return false;
   }
 
   /**

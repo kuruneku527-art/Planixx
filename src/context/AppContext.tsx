@@ -4,6 +4,7 @@ import { db } from '../services/db';
 import { soundEffects } from '../utils/audio';
 import { systemPermissions } from '../services/systemPermissions';
 import { nativeBridge } from '../services/nativeBridge';
+import { reminderScheduler } from '../services/reminderScheduler';
 
 export interface Toast {
   id: string;
@@ -321,24 +322,15 @@ export const AppProvider: React.FC<{ children: React.ReactNode }> = ({ children 
           setPomodoroStrictLock(false);
           systemPermissions.releaseWakeLock();
 
-          if (settings.soundEnabled || settings.soundEffectsEnabled) {
-            soundEffects.playCompletionChime(settings.soundVolume);
-          }
-
-          // Hardware vibration on mobile
-          if (typeof navigator !== 'undefined' && 'vibrate' in navigator) {
-            try {
-              navigator.vibrate([300, 150, 300, 150, 450]);
-            } catch {}
-          }
-
-          // Real System Notification
-          systemPermissions.showSystemNotification({
-            title: 'اتمام جلسه تمرکز 🍅',
-            body: pomodoroActiveTaskTitle
+          // 1. Trigger True Audible Alarm (loops until user stops or snoozes, rings through native USAGE_ALARM even in Silent mode)
+          reminderScheduler.triggerAlarm({
+            id: `pomodoro_completed_${Date.now()}`,
+            title: 'پایان زمان تمرکز پومودورو 🍅',
+            subtitle: pomodoroActiveTaskTitle
               ? `جلسه تمرکز روی «${pomodoroActiveTaskTitle}» با موفقیت پایان یافت.`
-              : 'جلسه تمرکز عمیق با موفقیت تکمیل شد.',
-            tag: 'pomodoro-complete',
+              : 'زمان تمرکز با موفقیت به اتمام رسید. وقت استراحت است!',
+            type: 'reminder',
+            time: new Date().toLocaleTimeString('fa-IR', { hour: '2-digit', minute: '2-digit' }),
             targetView: 'pomodoro',
           });
 

@@ -174,7 +174,12 @@ const MainLayout: React.FC = () => {
 
 const AppContent: React.FC = () => {
   const { settings } = useApp();
-  const [isSplashDone, setIsSplashDone] = React.useState(false);
+  const [isSplashDone, setIsSplashDone] = React.useState<boolean>(() => {
+    if (typeof window !== 'undefined') {
+      return sessionStorage.getItem('planix_splash_shown') === 'true';
+    }
+    return false;
+  });
 
   // Initialize central Viewport & Safe Area sync across all lifecycle states
   React.useEffect(() => {
@@ -182,9 +187,19 @@ const AppContent: React.FC = () => {
     return cleanup;
   }, []);
 
-  // 1. App Launch: Isolated, pristine Splash Screen (~450ms)
+  // 1. App Launch: Elegant, smooth Splash Screen (~800ms display + 500ms gentle fade) - only on cold launch, never on resume
   if (!isSplashDone) {
-    return <SplashScreen onComplete={() => setIsSplashDone(true)} minDuration={450} />;
+    return (
+      <SplashScreen
+        onComplete={() => {
+          setIsSplashDone(true);
+          try {
+            sessionStorage.setItem('planix_splash_shown', 'true');
+          } catch {}
+        }}
+        minDuration={800}
+      />
+    );
   }
 
   // 2. Authentication Gate: Login Screen must precede Dashboard

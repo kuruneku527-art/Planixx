@@ -23,7 +23,7 @@ import { PermissionsCenter } from '../common/PermissionsCenter';
 import { systemPermissions, SystemPermissionsStatus } from '../../services/systemPermissions';
 
 export const SettingsView: React.FC = () => {
-  const { settings, updateSettings, showToast } = useApp();
+  const { settings, updateSettings, showToast, openMascotTour } = useApp();
 
   const [userName, setUserName] = useState(settings.userName || '');
   const [theme, setTheme] = useState(settings.theme || 'dark');
@@ -455,12 +455,12 @@ export const SettingsView: React.FC = () => {
             <button
               type="button"
               onClick={() => {
-                updateSettings({ hasCompletedOnboarding: false });
-                showToast('هدایت به بخش آشنایی با برنامه...', 'info');
+                openMascotTour(0);
+                showToast('راهنمای مرحله‌به‌مرحله تصویری باز شد.', 'info');
               }}
               className="px-3.5 py-2 rounded-xl bg-slate-800 hover:bg-slate-700 text-slate-300 hover:text-white text-xs font-bold transition border border-slate-700 cursor-pointer"
             >
-              مشاهده مجدد Onboarding
+              مشاهده مجدد راهنما و Onboarding
             </button>
             <button
               type="button"
@@ -484,6 +484,16 @@ export const SettingsView: React.FC = () => {
             <Save className="w-4 h-4" />
             <span>ذخیره تنظیمات</span>
           </button>
+        </div>
+
+        {/* Creator Attribution */}
+        <div className="pt-8 pb-4 text-center border-t border-slate-800/80">
+          <p className="text-xs sm:text-sm font-bold text-slate-300">
+            ساخته شده توسط <span className="text-purple-400 font-extrabold">رومی لند</span> و <span className="text-purple-400 font-extrabold">یگانه بابایی</span>
+          </p>
+          <p className="text-[11px] text-slate-400 mt-1 font-mono">
+            Planix Smart System • تمامی حقوق محفوظ است
+          </p>
         </div>
       </form>
     </div>

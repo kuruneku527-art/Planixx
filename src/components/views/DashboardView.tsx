@@ -86,7 +86,7 @@ export const DashboardView: React.FC = () => {
           className="w-full py-2.5 sm:py-3 px-3 sm:px-4 rounded-xl sm:rounded-2xl bg-gradient-to-r from-purple-600 via-purple-500 to-indigo-600 hover:from-purple-500 hover:to-indigo-500 text-white font-extrabold text-xs sm:text-sm flex items-center justify-center gap-2 shadow-lg shadow-purple-600/35 border border-purple-400/40 transition active:scale-98 cursor-pointer"
         >
           <Plus className="w-4 h-4 sm:w-5 sm:h-5 stroke-[2.5] text-white" />
-          <span className="text-white font-black">+ وظیفه جدید</span>
+          <span className="text-white font-black">وظیفه جدید</span>
         </button>
       </div>
 
