@@ -12,6 +12,9 @@
     <!-- Exact Alarm & AlarmManager Permissions -->
     <uses-permission android:name="android.permission.SCHEDULE_EXACT_ALARM" />
     <uses-permission android:name="android.permission.USE_EXACT_ALARM" />
+    <uses-permission android:name="android.permission.USE_FULL_SCREEN_INTENT" />
+    <uses-permission android:name="android.permission.ACCESS_NOTIFICATION_POLICY" />
+    <uses-permission android:name="android.permission.DISABLE_KEYGUARD" />
     
     <!-- System Clock App Set Alarm Intent Permission -->
     <uses-permission android:name="com.android.alarm.permission.SET_ALARM" />
@@ -82,6 +85,17 @@
                 <data android:scheme="planner" />
             </intent-filter>
         </activity>
+
+        <!-- Full-Screen Native Alarm Activity for Lockscreen Display -->
+        <activity
+            android:name=".AlarmActivity"
+            android:exported="false"
+            android:showWhenLocked="true"
+            android:turnScreenOn="true"
+            android:showOnLockScreen="true"
+            android:excludeFromRecents="true"
+            android:theme="@style/AppTheme.NoActionBar"
+            android:launchMode="singleTask" />
 
         <!-- Foreground Sound Service for Continuous Alarm Ringing -->
         <service

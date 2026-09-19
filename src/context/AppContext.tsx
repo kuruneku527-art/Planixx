@@ -38,6 +38,9 @@ interface AppContextType {
   setMascotTourOpen: (open: boolean) => void;
   mascotInitialStep: number;
   openMascotTour: (initialStep?: number) => void;
+  onboardingOpen: boolean;
+  setOnboardingOpen: (open: boolean) => void;
+  openOnboarding: () => void;
   toasts: Toast[];
   showToast: (message: string, type?: 'success' | 'error' | 'info' | 'warning') => void;
   removeToast: (id: string) => void;
@@ -80,6 +83,11 @@ export const AppProvider: React.FC<{ children: React.ReactNode }> = ({ children 
   const [notificationCenterOpen, setNotificationCenterOpen] = useState(false);
   const [mascotTourOpen, setMascotTourOpen] = useState(false);
   const [mascotInitialStep, setMascotInitialStep] = useState(0);
+  const [onboardingOpen, setOnboardingOpen] = useState(false);
+
+  const openOnboarding = useCallback(() => {
+    setOnboardingOpen(true);
+  }, []);
 
   const openMascotTour = useCallback((initialStep: number = 0) => {
     setMascotInitialStep(initialStep);
@@ -190,7 +198,21 @@ export const AppProvider: React.FC<{ children: React.ReactNode }> = ({ children 
     // 1. Keep mobile screen awake if supported
     systemPermissions.acquireWakeLock();
 
-    // 2. Schedule Service Worker background alarm for mobile lock screen delivery
+    // 2. Schedule Native Exact Alarm via setAlarmClock (wakes phone, triggers full-screen AlarmActivity even if phone locked/app closed)
+    nativeBridge.scheduleAlarm({
+      id: 'pomodoro_active_session',
+      title: 'اتمام جلسه تمرکز پومودورو 🍅',
+      message: activeTitle
+        ? `جلسه تمرکز روی «${activeTitle}» به پایان رسید.`
+        : 'زمان جلسه تمرکز با موفقیت به پایان رسید. وقت استراحت است!',
+      timestamp: targetEnd,
+      targetView: 'pomodoro',
+    });
+
+    // 3. Activate Native Screen Pinning & Do Not Disturb mode
+    nativeBridge.startPomodoroFocus(true, true, lockMode);
+
+    // 4. Schedule Service Worker background alarm for web fallback
     if (typeof navigator !== 'undefined' && navigator.serviceWorker?.controller) {
       try {
         navigator.serviceWorker.controller.postMessage({
@@ -224,6 +246,8 @@ export const AppProvider: React.FC<{ children: React.ReactNode }> = ({ children 
   const pausePomodoro = useCallback(() => {
     targetEndTimeRef.current = null;
     systemPermissions.releaseWakeLock();
+    nativeBridge.cancelAlarm('pomodoro_active_session');
+    nativeBridge.stopPomodoroFocus();
 
     if (typeof navigator !== 'undefined' && navigator.serviceWorker?.controller) {
       try {
@@ -240,6 +264,8 @@ export const AppProvider: React.FC<{ children: React.ReactNode }> = ({ children 
   const setPomodoroDuration = useCallback((minutes: number) => {
     targetEndTimeRef.current = null;
     systemPermissions.releaseWakeLock();
+    nativeBridge.cancelAlarm('pomodoro_active_session');
+    nativeBridge.stopPomodoroFocus();
 
     if (typeof navigator !== 'undefined' && navigator.serviceWorker?.controller) {
       try {
@@ -261,6 +287,8 @@ export const AppProvider: React.FC<{ children: React.ReactNode }> = ({ children 
   const resetPomodoro = useCallback((overrideMinutes?: number) => {
     targetEndTimeRef.current = null;
     systemPermissions.releaseWakeLock();
+    nativeBridge.cancelAlarm('pomodoro_active_session');
+    nativeBridge.stopPomodoroFocus();
 
     if (typeof navigator !== 'undefined' && navigator.serviceWorker?.controller) {
       try {
@@ -281,6 +309,8 @@ export const AppProvider: React.FC<{ children: React.ReactNode }> = ({ children 
   const skipPomodoro = useCallback(() => {
     targetEndTimeRef.current = null;
     systemPermissions.releaseWakeLock();
+    nativeBridge.cancelAlarm('pomodoro_active_session');
+    nativeBridge.stopPomodoroFocus();
 
     if (typeof navigator !== 'undefined' && navigator.serviceWorker?.controller) {
       try {
@@ -299,6 +329,7 @@ export const AppProvider: React.FC<{ children: React.ReactNode }> = ({ children 
 
   const unlockPomodoroFocus = useCallback(() => {
     setPomodoroStrictLock(false);
+    nativeBridge.stopPomodoroFocus();
   }, []);
 
   // Global Pomodoro countdown ticker with mobile background time synchronization
@@ -321,6 +352,8 @@ export const AppProvider: React.FC<{ children: React.ReactNode }> = ({ children 
           setPomodoroIsRunning(false);
           setPomodoroStrictLock(false);
           systemPermissions.releaseWakeLock();
+          nativeBridge.stopPomodoroFocus();
+          nativeBridge.cancelAlarm('pomodoro_active_session');
 
           // 1. Trigger True Audible Alarm (loops until user stops or snoozes, rings through native USAGE_ALARM even in Silent mode)
           reminderScheduler.triggerAlarm({
@@ -478,6 +511,9 @@ export const AppProvider: React.FC<{ children: React.ReactNode }> = ({ children 
         setMascotTourOpen,
         mascotInitialStep,
         openMascotTour,
+        onboardingOpen,
+        setOnboardingOpen,
+        openOnboarding,
         toasts,
         showToast,
         removeToast,

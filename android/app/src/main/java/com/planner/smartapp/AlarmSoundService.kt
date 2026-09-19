@@ -174,7 +174,22 @@ class AlarmSoundService : Service() {
             e.printStackTrace()
         }
 
-        // 3. Build Ongoing Foreground Notification with "توقف" (Stop) and "تعویق" (Snooze) actions
+        // 3. Build Full-Screen Intent for AlarmActivity
+        val fullScreenIntent = Intent(this, AlarmActivity::class.java).apply {
+            flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TOP
+            putExtra("id", currentAlarmId)
+            putExtra("title", currentTitle)
+            putExtra("message", currentMessage)
+            putExtra("soundUri", currentSoundUriStr)
+            putExtra("targetView", currentTargetView)
+        }
+        val fullScreenPendingIntent = PendingIntent.getActivity(
+            this,
+            (currentAlarmId + "_fs").hashCode(),
+            fullScreenIntent,
+            PendingIntent.FLAG_UPDATE_CURRENT or PendingIntent.FLAG_IMMUTABLE
+        )
+
         val contentIntent = Intent(this, MainActivity::class.java).apply {
             flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TOP
             putExtra("targetView", currentTargetView)
@@ -215,7 +230,7 @@ class AlarmSoundService : Service() {
         )
 
         val notification = NotificationCompat.Builder(this, NotificationHelper.CHANNEL_ALARM_ID)
-            .setSmallIcon(android.R.drawable.ic_lock_idle_alarm)
+            .setSmallIcon(R.drawable.ic_notification)
             .setContentTitle("🔔 $currentTitle")
             .setContentText(currentMessage)
             .setStyle(NotificationCompat.BigTextStyle().bigText(currentMessage))
@@ -223,12 +238,21 @@ class AlarmSoundService : Service() {
             .setCategory(NotificationCompat.CATEGORY_ALARM)
             .setVisibility(NotificationCompat.VISIBILITY_PUBLIC)
             .setOngoing(true)
+            .setAutoCancel(false)
             .setContentIntent(pendingContentIntent)
+            .setFullScreenIntent(fullScreenPendingIntent, true)
             .addAction(android.R.drawable.ic_menu_close_clear_cancel, "توقف", pendingStopIntent)
             .addAction(android.R.drawable.ic_lock_idle_alarm, "تعویق (۵ دقیقه)", pendingSnoozeIntent)
             .build()
 
         startForeground(NOTIFICATION_ID, notification)
+
+        // Also launch AlarmActivity directly so it presents immediately
+        try {
+            startActivity(fullScreenIntent)
+        } catch (e: Exception) {
+            e.printStackTrace()
+        }
     }
 
     private fun scheduleSnooze(minutes: Int) {
@@ -252,7 +276,12 @@ class AlarmSoundService : Service() {
         )
 
         try {
-            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+                alarmManager.setAlarmClock(
+                    AlarmManager.AlarmClockInfo(triggerTime, pendingIntent),
+                    pendingIntent
+                )
+            } else if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
                 alarmManager.setExactAndAllowWhileIdle(AlarmManager.RTC_WAKEUP, triggerTime, pendingIntent)
             } else {
                 alarmManager.setExact(AlarmManager.RTC_WAKEUP, triggerTime, pendingIntent)

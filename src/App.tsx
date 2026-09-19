@@ -197,7 +197,7 @@ const AppContent: React.FC = () => {
             sessionStorage.setItem('planix_splash_shown', 'true');
           } catch {}
         }}
-        minDuration={800}
+        minDuration={1800}
       />
     );
   }

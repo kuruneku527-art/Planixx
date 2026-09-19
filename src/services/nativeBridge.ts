@@ -70,6 +70,12 @@ declare global {
       saveBackupFile: (jsonContent: string, defaultFilename: string) => void;
       getSystemInsets: () => string; // returns JSON "{ top, bottom, left, right }"
       setSystemBarsTheme?: (isLight: boolean) => void;
+      hasNotificationPolicyAccess?: () => boolean;
+      openNotificationPolicyAccessSettings?: () => void;
+      isAlarmVolumeZero?: () => boolean;
+      openSoundSettings?: () => void;
+      startPomodoroFocus?: (keepScreenOn: boolean, enableDnd: boolean, pinScreen: boolean) => boolean;
+      stopPomodoroFocus?: () => boolean;
       showToast: (message: string) => void;
     };
     // Callbacks invoked by Android Native Activity
@@ -391,6 +397,88 @@ class NativeBridgeService {
         return window.AndroidBridge.snoozeAlarm(alarmId, minutes);
       } catch (err) {
         console.warn('[NativeBridge] snoozeAlarm error:', err);
+      }
+    }
+    return false;
+  }
+
+  /**
+   * Check if app has DND / Notification Policy Access to mute distractions
+   */
+  public hasNotificationPolicyAccess(): boolean {
+    if (this.isNative() && window.AndroidBridge?.hasNotificationPolicyAccess) {
+      try {
+        return window.AndroidBridge.hasNotificationPolicyAccess();
+      } catch (err) {
+        console.warn('[NativeBridge] hasNotificationPolicyAccess error:', err);
+      }
+    }
+    return false;
+  }
+
+  /**
+   * Open Android system settings to grant Do Not Disturb policy access
+   */
+  public openNotificationPolicyAccessSettings(): void {
+    if (this.isNative() && window.AndroidBridge?.openNotificationPolicyAccessSettings) {
+      try {
+        window.AndroidBridge.openNotificationPolicyAccessSettings();
+      } catch (err) {
+        console.warn('[NativeBridge] openNotificationPolicyAccessSettings error:', err);
+      }
+    }
+  }
+
+  /**
+   * Check if Android alarm stream volume is currently muted or zero
+   */
+  public isAlarmVolumeZero(): boolean {
+    if (this.isNative() && window.AndroidBridge?.isAlarmVolumeZero) {
+      try {
+        return window.AndroidBridge.isAlarmVolumeZero();
+      } catch (err) {
+        console.warn('[NativeBridge] isAlarmVolumeZero error:', err);
+      }
+    }
+    return false;
+  }
+
+  /**
+   * Open Android sound settings to adjust alarm volume
+   */
+  public openSoundSettings(): void {
+    if (this.isNative() && window.AndroidBridge?.openSoundSettings) {
+      try {
+        window.AndroidBridge.openSoundSettings();
+      } catch (err) {
+        console.warn('[NativeBridge] openSoundSettings error:', err);
+      }
+    }
+  }
+
+  /**
+   * Activate native Pomodoro focus lock: keep screen on, enable DND, pin app (startLockTask)
+   */
+  public startPomodoroFocus(keepScreenOn: boolean = true, enableDnd: boolean = true, pinScreen: boolean = false): boolean {
+    if (this.isNative() && window.AndroidBridge?.startPomodoroFocus) {
+      try {
+        return window.AndroidBridge.startPomodoroFocus(keepScreenOn, enableDnd, pinScreen);
+      } catch (err) {
+        console.warn('[NativeBridge] startPomodoroFocus error:', err);
+      }
+    }
+    return false;
+  }
+
+  /**
+   * Deactivate native Pomodoro focus lock: clear screen on, restore DND, unpin app
+   */
+  public stopPomodoroFocus(): boolean {
+    if (this.isNative() && window.AndroidBridge?.stopPomodoroFocus) {
+      try {
+        return window.AndroidBridge.stopPomodoroFocus();
+      } catch (err) {
+        console.warn('[NativeBridge] stopPomodoroFocus error:', err);
       }
     }
     return false;

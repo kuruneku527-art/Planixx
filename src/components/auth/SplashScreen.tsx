@@ -7,7 +7,7 @@ interface SplashScreenProps {
 
 export const SplashScreen: React.FC<SplashScreenProps> = ({
   onComplete,
-  minDuration = 800,
+  minDuration = 1800,
 }) => {
   const [isFading, setIsFading] = useState(false);
 
@@ -18,7 +18,7 @@ export const SplashScreen: React.FC<SplashScreenProps> = ({
 
     const finishTimer = setTimeout(() => {
       onComplete();
-    }, minDuration + 500);
+    }, minDuration + 800);
 
     return () => {
       clearTimeout(fadeTimer);
@@ -30,8 +30,8 @@ export const SplashScreen: React.FC<SplashScreenProps> = ({
     <div
       id="planix-splash-screen"
       dir="rtl"
-      className={`fixed inset-0 z-[9999] flex flex-col items-center justify-between bg-slate-950 text-slate-100 select-none transition-all duration-500 ease-in-out overflow-hidden ${
-        isFading ? 'opacity-0 scale-[1.02] pointer-events-none' : 'opacity-100 scale-100'
+      className={`fixed inset-0 z-[9999] flex flex-col items-center justify-between bg-slate-950 text-slate-100 select-none transition-all duration-700 ease-out overflow-hidden ${
+        isFading ? 'opacity-0 scale-[1.03] pointer-events-none' : 'opacity-100 scale-100'
       }`}
       style={{
         paddingTop: 'max(env(safe-area-inset-top, 0px), 28px)',

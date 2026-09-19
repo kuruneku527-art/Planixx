@@ -112,6 +112,24 @@ class MainActivity : BridgeActivity() {
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
+        val splashScreen = androidx.core.splashscreen.SplashScreen.installSplashScreen(this)
+        splashScreen.setOnExitAnimationListener { splashScreenViewProvider ->
+            val fadeOut = android.animation.ObjectAnimator.ofFloat(
+                splashScreenViewProvider.view,
+                android.view.View.ALPHA,
+                1f,
+                0f
+            )
+            fadeOut.interpolator = android.view.animation.DecelerateInterpolator()
+            fadeOut.duration = 750L
+            fadeOut.addListener(object : android.animation.AnimatorListenerAdapter() {
+                override fun onAnimationEnd(animation: android.animation.Animator) {
+                    splashScreenViewProvider.remove()
+                }
+            })
+            fadeOut.start()
+        }
+
         // Configure edge-to-edge BEFORE the Activity/WebView is created.
         // This prevents the first rendered frame from using the full screen
         // and then jumping into the safe-area layout.

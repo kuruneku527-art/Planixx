@@ -175,7 +175,7 @@ class AndroidBridge(
     }
 
     /**
-     * Schedule an exact alarm using AlarmManager.setExactAndAllowWhileIdle
+     * Schedule an exact alarm using AlarmManager.setAlarmClock
      */
     @JavascriptInterface
     fun scheduleExactAlarm(alarmJson: String): Boolean {
@@ -186,6 +186,7 @@ class AndroidBridge(
             val message = json.optString("message", "")
             val timestamp = json.getLong("timestamp")
             val soundUri = json.optString("soundUri", "")
+            val targetView = json.optString("targetView", "reminders")
 
             val intent = Intent(activity, AlarmReceiver::class.java).apply {
                 action = "com.planner.smartapp.ACTION_ALARM_TRIGGER"
@@ -193,6 +194,7 @@ class AndroidBridge(
                 putExtra("title", title)
                 putExtra("message", message)
                 putExtra("soundUri", soundUri)
+                putExtra("targetView", targetView)
             }
 
             val requestCode = id.hashCode()
@@ -203,7 +205,23 @@ class AndroidBridge(
                 PendingIntent.FLAG_UPDATE_CURRENT or PendingIntent.FLAG_IMMUTABLE
             )
 
-            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+            val showIntent = Intent(activity, MainActivity::class.java).apply {
+                flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TOP
+                putExtra("targetView", targetView)
+            }
+            val showPendingIntent = PendingIntent.getActivity(
+                activity,
+                (id + "_show").hashCode(),
+                showIntent,
+                PendingIntent.FLAG_UPDATE_CURRENT or PendingIntent.FLAG_IMMUTABLE
+            )
+
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+                alarmManager.setAlarmClock(
+                    AlarmManager.AlarmClockInfo(timestamp, showPendingIntent),
+                    pendingIntent
+                )
+            } else if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
                 alarmManager.setExactAndAllowWhileIdle(
                     AlarmManager.RTC_WAKEUP,
                     timestamp,
@@ -216,6 +234,15 @@ class AndroidBridge(
                     pendingIntent
                 )
             }
+
+            // Persist to SharedPreferences for reboot restoration
+            try {
+                val prefs = activity.getSharedPreferences("planix_alarms", Context.MODE_PRIVATE)
+                prefs.edit().putString("alarm_$id", alarmJson).apply()
+            } catch (e: Exception) {
+                e.printStackTrace()
+            }
+
             return true
         } catch (e: Exception) {
             e.printStackTrace()
@@ -239,6 +266,15 @@ class AndroidBridge(
                 PendingIntent.FLAG_UPDATE_CURRENT or PendingIntent.FLAG_IMMUTABLE
             )
             alarmManager.cancel(pendingIntent)
+
+            // Remove persisted alarm
+            try {
+                val prefs = activity.getSharedPreferences("planix_alarms", Context.MODE_PRIVATE)
+                prefs.edit().remove("alarm_$alarmId").apply()
+            } catch (e: Exception) {
+                e.printStackTrace()
+            }
+
             return true
         } catch (e: Exception) {
             e.printStackTrace()
@@ -471,6 +507,110 @@ class AndroidBridge(
                 e.printStackTrace()
             }
         }
+    }
+
+    private var previousDndFilter: Int = -1
+    private var isScreenPinned: Boolean = false
+
+    @JavascriptInterface
+    fun hasNotificationPolicyAccess(): Boolean {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+            val notificationManager = activity.getSystemService(Context.NOTIFICATION_SERVICE) as android.app.NotificationManager
+            return notificationManager.isNotificationPolicyAccessGranted
+        }
+        return true
+    }
+
+    @JavascriptInterface
+    fun openNotificationPolicyAccessSettings() {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+            try {
+                val intent = Intent(Settings.ACTION_NOTIFICATION_POLICY_ACCESS_SETTINGS).apply {
+                    addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
+                }
+                activity.startActivity(intent)
+            } catch (e: Exception) {
+                e.printStackTrace()
+            }
+        }
+    }
+
+    @JavascriptInterface
+    fun isAlarmVolumeZero(): Boolean {
+        return try {
+            val audioManager = activity.getSystemService(Context.AUDIO_SERVICE) as android.media.AudioManager
+            audioManager.getStreamVolume(android.media.AudioManager.STREAM_ALARM) == 0
+        } catch (e: Exception) {
+            false
+        }
+    }
+
+    @JavascriptInterface
+    fun openSoundSettings() {
+        try {
+            val intent = Intent(Settings.ACTION_SOUND_SETTINGS).apply {
+                addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
+            }
+            activity.startActivity(intent)
+        } catch (e: Exception) {
+            e.printStackTrace()
+        }
+    }
+
+    @JavascriptInterface
+    fun startPomodoroFocus(keepScreenOn: Boolean, enableDnd: Boolean, pinScreen: Boolean): Boolean {
+        activity.runOnUiThread {
+            try {
+                if (keepScreenOn) {
+                    activity.window.addFlags(android.view.WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON)
+                }
+                if (enableDnd && Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+                    val notificationManager = activity.getSystemService(Context.NOTIFICATION_SERVICE) as android.app.NotificationManager
+                    if (notificationManager.isNotificationPolicyAccessGranted) {
+                        previousDndFilter = notificationManager.currentInterruptionFilter
+                        notificationManager.setInterruptionFilter(android.app.NotificationManager.INTERRUPTION_FILTER_PRIORITY)
+                    }
+                }
+                if (pinScreen) {
+                    try {
+                        activity.startLockTask()
+                        isScreenPinned = true
+                    } catch (e: Exception) {
+                        e.printStackTrace()
+                    }
+                }
+            } catch (e: Exception) {
+                e.printStackTrace()
+            }
+        }
+        return true
+    }
+
+    @JavascriptInterface
+    fun stopPomodoroFocus(): Boolean {
+        activity.runOnUiThread {
+            try {
+                activity.window.clearFlags(android.view.WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON)
+                if (isScreenPinned) {
+                    try {
+                        activity.stopLockTask()
+                    } catch (e: Exception) {
+                        e.printStackTrace()
+                    }
+                    isScreenPinned = false
+                }
+                if (previousDndFilter != -1 && Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+                    val notificationManager = activity.getSystemService(Context.NOTIFICATION_SERVICE) as android.app.NotificationManager
+                    if (notificationManager.isNotificationPolicyAccessGranted) {
+                        notificationManager.setInterruptionFilter(previousDndFilter)
+                    }
+                    previousDndFilter = -1
+                }
+            } catch (e: Exception) {
+                e.printStackTrace()
+            }
+        }
+        return true
     }
 
     @JavascriptInterface
