@@ -22,15 +22,20 @@ jobs:
       - name: Setup Node.js
         uses: actions/setup-node@v5
         with:
-          node-version: 22
-          cache: npm
+          node-version: '22'
+
+      - name: Verify Node.js and npm
+        shell: bash
+        run: |
+          set -e
+          node --version
+          npm --version
 
       - name: Setup Java
         uses: actions/setup-java@v5
         with:
           distribution: temurin
           java-version: '17'
-          cache: gradle
 
       - name: Setup Gradle
         uses: gradle/actions/setup-gradle@v6
@@ -43,6 +48,7 @@ jobs:
           echo "Checking project structure..."
 
           test -f package.json
+          test -f package-lock.json
           test -d android
           test -f android/gradlew
           test -d android/app
@@ -52,16 +58,19 @@ jobs:
       - name: Install dependencies
         shell: bash
         run: |
-          npm install --no-audit --no-fund
+          set -e
+          npm ci --no-audit --no-fund
 
       - name: Verify Capacitor
         shell: bash
         run: |
+          set -e
           npx cap --version
 
       - name: Build web application
         shell: bash
         run: |
+          set -e
           npm run build
 
       - name: Verify web build
@@ -69,14 +78,18 @@ jobs:
         run: |
           set -e
 
-          test -f dist/index.html
+          if [ ! -f dist/index.html ]; then
+            echo "ERROR: dist/index.html was not created."
+            exit 1
+          fi
 
-          echo "Web build verified."
+          echo "Web build verified successfully."
           find dist -maxdepth 3 -type f -print
 
       - name: Sync Capacitor
         shell: bash
         run: |
+          set -e
           npx cap sync android
 
       - name: Configure Android SDK
@@ -89,13 +102,13 @@ jobs:
           elif [ -n "$ANDROID_SDK_ROOT" ]; then
             SDK_PATH="$ANDROID_SDK_ROOT"
           else
-            echo "ERROR: Android SDK environment variable was not found."
+            echo "ERROR: Android SDK was not found."
             exit 1
           fi
 
           echo "sdk.dir=$SDK_PATH" > android/local.properties
 
-          echo "Android SDK:"
+          echo "Android SDK configured:"
           cat android/local.properties
 
       - name: Prepare Gradle
@@ -107,9 +120,10 @@ jobs:
 
           chmod +x gradlew
 
-          echo "Gradle wrapper:"
-          grep "distributionUrl" gradle/wrapper/gradle-wrapper.properties || true
+          echo "Gradle wrapper configuration:"
+          cat gradle/wrapper/gradle-wrapper.properties
 
+          echo ""
           echo "Gradle version:"
           ./gradlew --version
 
@@ -140,7 +154,7 @@ jobs:
 
           if [ -z "$APK" ]; then
             echo "ERROR: APK was not generated."
-            echo "Searching entire android directory..."
+            echo "Searching for APK files:"
             find android -type f -name "*.apk" -print || true
             exit 1
           fi
