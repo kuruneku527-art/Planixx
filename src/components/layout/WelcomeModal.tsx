@@ -23,11 +23,14 @@ export const WelcomeModal: React.FC = () => {
 
   const handleFinishWithName = () => {
     const finalName = name.trim() || 'کاربر گرامی';
+    const wasFirst = settings.isFirstLaunch;
     updateSettings({
       userName: finalName,
       isFirstLaunch: false,
     });
-    showToast(`خوش آمدید، ${finalName}!`, 'success');
+    if (wasFirst) {
+      showToast(`خوش آمدید، ${finalName}!`, 'success');
+    }
     setTimeout(() => {
       openMascotTour(0);
     }, 200);

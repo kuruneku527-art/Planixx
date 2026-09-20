@@ -47,13 +47,8 @@ export const SplashScreen: React.FC<SplashScreenProps> = ({
       <div className="absolute top-1/3 left-1/2 -translate-x-1/2 -translate-y-1/2 w-80 h-80 bg-purple-600/15 rounded-full blur-3xl pointer-events-none" />
       <div className="absolute top-2/3 left-1/2 -translate-x-1/2 -translate-y-1/2 w-64 h-64 bg-indigo-600/10 rounded-full blur-3xl pointer-events-none" />
 
-      {/* Top spacing */}
-      <div className="w-full flex justify-center pt-4 opacity-70">
-        <div className="flex items-center gap-1.5 text-xs text-slate-400 font-medium tracking-wide">
-          <Sparkles className="w-3.5 h-3.5 text-purple-400 animate-spin-slow" />
-          <span>نسخه هوشمند و آفلاین</span>
-        </div>
-      </div>
+      {/* Top spacing - clean and minimal without clutter under phone status bar */}
+      <div className="w-full" />
 
       {/* Center Branding */}
       <div className="relative z-10 flex flex-col items-center text-center px-6">

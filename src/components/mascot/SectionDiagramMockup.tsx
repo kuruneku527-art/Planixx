@@ -33,7 +33,7 @@ export const SectionDiagramMockup: React.FC<SectionDiagramMockupProps> = ({
   onSelectCallout,
 }) => {
   return (
-    <div className="relative w-full max-h-[160px] sm:max-h-[200px] overflow-hidden rounded-xl bg-slate-950/90 border border-purple-500/30 shadow-lg p-2 text-slate-100 select-none max-w-md mx-auto flex flex-col justify-between" dir="rtl">
+    <div className="relative w-full rounded-2xl bg-[#131722]/90 border border-slate-800/80 p-3 sm:p-3.5 text-slate-100 select-none mx-auto" dir="rtl">
       
       {/* Visual Window Bar */}
       <div className="flex items-center justify-between pb-1 mb-1.5 border-b border-slate-800/80 text-[10px] text-slate-400">
@@ -76,113 +76,56 @@ export const SectionDiagramMockup: React.FC<SectionDiagramMockupProps> = ({
 
       {/* 1. DASHBOARD MOCKUP */}
       {viewKey === 'dashboard' && (
-        <div className="space-y-2 relative text-xs">
-          {/* Banner with Badge 1 */}
-          <div className="relative p-2.5 sm:p-3 rounded-xl bg-gradient-to-r from-purple-950/80 via-slate-900 to-indigo-950/70 border border-purple-600/40 flex items-center justify-between">
-            <div className="flex items-center gap-2">
-              <div className="w-8 h-8 rounded-lg bg-slate-950 border border-purple-400/50 overflow-hidden shrink-0">
-                <img src="/mascot.png" alt="ممد" className="w-full h-full object-cover" />
-              </div>
-              <span className="text-[10px] text-purple-300 bg-purple-900/60 px-2 py-0.5 rounded-full font-bold">
-                روباه راهنما 🦊
-              </span>
+        <div className="space-y-2.5 relative text-xs">
+          {/* Row 1: Header with date, greeting and mascot */}
+          <div className="flex items-center justify-between pb-1">
+            <div className="flex items-center gap-1.5 px-2.5 py-1 rounded-full bg-[#1e2333] border border-slate-700/60 text-slate-300 text-[11px] cursor-pointer hover:border-purple-500/40">
+              <span className="text-xs">🦊</span>
+              <span>روباه راهنما</span>
+              <span className="text-slate-500 text-[10px] mr-1">‹</span>
             </div>
-            <div className="text-right">
-              <span className="text-[9px] bg-purple-900/80 text-purple-200 px-2 py-0.5 rounded-full inline-block mb-0.5">
-                سه شنبه ۲۴ شهریور ۱۴۰۵
-              </span>
-              <h4 className="text-xs sm:text-sm font-black text-slate-100">سلام کاربر گرامی، روزت بخیر!</h4>
-            </div>
-
-            {/* Indicator Badge 1 */}
-            <div className="absolute -top-2 -right-2 w-6 h-6 rounded-full bg-gradient-to-tr from-purple-600 to-indigo-500 text-white font-black text-xs flex items-center justify-center shadow-lg shadow-purple-900/80 border border-purple-300 animate-pulse">
-              ۱
+            <div className="flex items-center gap-1.5 text-slate-400 text-[11px]">
+              <span>سه شنبه ۲۴ شهریور ۱۴۰۵</span>
+              <CalendarIcon className="w-3.5 h-3.5 text-slate-400" />
             </div>
           </div>
 
-          {/* Action Buttons with Badge 2 */}
-          <div className="relative grid grid-cols-2 gap-2">
-            <div className="py-2 px-2.5 rounded-xl bg-gradient-to-r from-purple-600 to-indigo-600 text-white font-extrabold text-[11px] flex items-center justify-center gap-1.5 shadow-md shadow-purple-600/30">
-              <Plus className="w-3.5 h-3.5 text-white" />
+          {/* User greeting */}
+          <div className="text-right">
+            <h4 className="text-sm sm:text-base font-black text-white">سلام کاربر گرامی، روزت بخیر!</h4>
+          </div>
+
+          {/* Action Buttons: 2 large buttons (Start Focus & New Task) */}
+          <div className="grid grid-cols-2 gap-2.5">
+            {/* Primary button: + وظیفه جدید */}
+            <div className="py-2.5 px-3 rounded-xl bg-gradient-to-r from-purple-600 to-indigo-600 text-white font-black text-xs flex items-center justify-center gap-1.5 shadow-md shadow-purple-600/30 cursor-pointer">
               <span>+ وظیفه جدید</span>
             </div>
-            <div className="py-2 px-2.5 rounded-xl bg-slate-900 border border-slate-700 text-[11px] font-bold text-slate-300 flex items-center justify-center gap-1.5">
-              <Timer className="w-3.5 h-3.5 text-purple-400" />
-              <span>شروع تمرکز</span>
-            </div>
-
-            {/* Indicator Badge 2 */}
-            <div className="absolute -top-2 -left-2 w-6 h-6 rounded-full bg-gradient-to-tr from-purple-600 to-indigo-500 text-white font-black text-xs flex items-center justify-center shadow-lg shadow-purple-900/80 border border-purple-300 animate-pulse">
-              ۲
+            {/* Secondary button: شروع تمرکز */}
+            <div className="py-2.5 px-3 rounded-xl bg-[#1e2333] border border-slate-700/80 text-slate-200 text-xs font-bold flex items-center justify-between px-3 cursor-pointer">
+              <span className="text-slate-500 text-xs">‹</span>
+              <div className="flex items-center gap-1.5">
+                <span>شروع تمرکز</span>
+                <Timer className="w-3.5 h-3.5 text-slate-300" />
+              </div>
             </div>
           </div>
 
-          {/* 4 Metric Cards with Badge 3 */}
-          <div className="relative grid grid-cols-2 gap-2">
-            <div className="p-2 sm:p-2.5 rounded-xl bg-slate-900/90 border border-slate-800">
-              <div className="flex justify-between items-center text-[10px] text-slate-400 mb-1">
-                <span className="font-bold text-slate-200">وظایف امروز</span>
+          {/* Two Sub-buttons: وظایف امروز / رویدادها */}
+          <div className="grid grid-cols-2 gap-2.5">
+            <div className="py-2 px-3 rounded-xl bg-[#181c28] border border-slate-800/80 text-slate-300 text-[11px] font-semibold flex items-center justify-between cursor-pointer">
+              <span className="text-slate-500 text-xs">‹</span>
+              <div className="flex items-center gap-1.5">
+                <span>وظایف امروز</span>
                 <CheckSquare className="w-3.5 h-3.5 text-purple-400" />
               </div>
-              <span className="text-sm font-black text-purple-300">۳ از ۵</span>
-              <div className="w-full bg-slate-800 h-1 rounded-full mt-1.5 overflow-hidden">
-                <div className="bg-purple-500 h-full w-[60%]" />
-              </div>
             </div>
-
-            <div className="p-2 sm:p-2.5 rounded-xl bg-slate-900/90 border border-slate-800">
-              <div className="flex justify-between items-center text-[10px] text-slate-400 mb-1">
-                <span className="font-bold text-slate-200">رویدادها</span>
+            <div className="py-2 px-3 rounded-xl bg-[#181c28] border border-slate-800/80 text-slate-300 text-[11px] font-semibold flex items-center justify-between cursor-pointer">
+              <span className="text-slate-500 text-xs">‹</span>
+              <div className="flex items-center gap-1.5">
+                <span>رویدادها</span>
                 <CalendarIcon className="w-3.5 h-3.5 text-indigo-400" />
               </div>
-              <span className="text-xs font-bold text-slate-200">۲ جلسه کاری</span>
-              <span className="text-[9px] text-slate-400 block mt-0.5">اولین: ۱۰:۳۰</span>
-            </div>
-
-            <div className="p-2 sm:p-2.5 rounded-xl bg-slate-900/90 border border-slate-800">
-              <div className="flex justify-between items-center text-[10px] text-slate-400 mb-1">
-                <span className="font-bold text-slate-200">عادت‌ها</span>
-                <Flame className="w-3.5 h-3.5 text-amber-400" />
-              </div>
-              <span className="text-sm font-black text-amber-300">۴ از ۴</span>
-              <div className="w-full bg-slate-800 h-1 rounded-full mt-1.5 overflow-hidden">
-                <div className="bg-amber-500 h-full w-full" />
-              </div>
-            </div>
-
-            <div className="p-2 sm:p-2.5 rounded-xl bg-slate-900/90 border border-slate-800">
-              <div className="flex justify-between items-center text-[10px] text-slate-400 mb-1">
-                <span className="font-bold text-slate-200">تمرکز امروز</span>
-                <Timer className="w-3.5 h-3.5 text-emerald-400" />
-              </div>
-              <span className="text-sm font-black text-emerald-400">۵۰ دقیقه</span>
-              <span className="text-[9px] text-slate-400 block mt-0.5">۲ سشن موفق</span>
-            </div>
-
-            {/* Indicator Badge 3 */}
-            <div className="absolute top-1/2 -right-2 -translate-y-1/2 w-6 h-6 rounded-full bg-gradient-to-tr from-purple-600 to-indigo-500 text-white font-black text-xs flex items-center justify-center shadow-lg shadow-purple-900/80 border border-purple-300 animate-pulse">
-              ۳
-            </div>
-          </div>
-
-          {/* Quick Actions 6-Grid with Badge 4 */}
-          <div className="relative p-2.5 rounded-xl bg-slate-900/80 border border-slate-800">
-            <span className="text-[10px] font-bold text-slate-300 flex items-center gap-1 mb-1.5">
-              <Zap className="w-3 h-3 text-purple-400" />
-              دسترسی و ثبت سریع ⚡
-            </span>
-            <div className="grid grid-cols-3 gap-1.5 text-[10px]">
-              <div className="p-1.5 rounded-lg bg-slate-800/80 text-center font-bold text-slate-200">+ وظیفه</div>
-              <div className="p-1.5 rounded-lg bg-slate-800/80 text-center font-bold text-slate-200">+ رویداد</div>
-              <div className="p-1.5 rounded-lg bg-slate-800/80 text-center font-bold text-slate-200">+ پروژه</div>
-              <div className="p-1.5 rounded-lg bg-slate-800/80 text-center font-bold text-slate-200">+ هدف</div>
-              <div className="p-1.5 rounded-lg bg-slate-800/80 text-center font-bold text-slate-200">+ یادداشت</div>
-              <div className="p-1.5 rounded-lg bg-slate-800/80 text-center font-bold text-slate-200">+ عادت</div>
-            </div>
-
-            {/* Indicator Badge 4 */}
-            <div className="absolute -bottom-2 -left-2 w-6 h-6 rounded-full bg-gradient-to-tr from-purple-600 to-indigo-500 text-white font-black text-xs flex items-center justify-center shadow-lg shadow-purple-900/80 border border-purple-300 animate-pulse">
-              ۴
             </div>
           </div>
         </div>
