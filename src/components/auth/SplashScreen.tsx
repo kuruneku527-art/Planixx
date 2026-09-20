@@ -7,7 +7,7 @@ interface SplashScreenProps {
 
 export const SplashScreen: React.FC<SplashScreenProps> = ({
   onComplete,
-  minDuration = 1800,
+  minDuration = 1200,
 }) => {
   const [isFading, setIsFading] = useState(false);
 
@@ -18,7 +18,7 @@ export const SplashScreen: React.FC<SplashScreenProps> = ({
 
     const finishTimer = setTimeout(() => {
       onComplete();
-    }, minDuration + 800);
+    }, minDuration + 600);
 
     return () => {
       clearTimeout(fadeTimer);
@@ -30,7 +30,7 @@ export const SplashScreen: React.FC<SplashScreenProps> = ({
     <div
       id="planix-splash-screen"
       dir="rtl"
-      className={`fixed inset-0 z-[9999] flex flex-col items-center justify-between bg-slate-950 text-slate-100 select-none transition-all duration-700 ease-out overflow-hidden ${
+      className={`fixed inset-0 z-[9999] flex flex-col items-center justify-between bg-slate-950 text-slate-100 select-none transition-all duration-500 ease-out overflow-hidden ${
         isFading ? 'opacity-0 scale-[1.03] pointer-events-none' : 'opacity-100 scale-100'
       }`}
       style={{
@@ -53,8 +53,8 @@ export const SplashScreen: React.FC<SplashScreenProps> = ({
       <div className="relative z-10 flex flex-col items-center text-center px-6">
         {/* App Logo Frame */}
         <div className="relative mb-5 group">
-          <div className="absolute -inset-1.5 rounded-3xl bg-gradient-to-tr from-purple-600 to-indigo-500 opacity-50 blur-lg animate-pulse" />
-          <div className="relative w-24 h-24 sm:w-28 sm:h-28 rounded-3xl bg-slate-900/90 border border-purple-500/40 shadow-2xl flex items-center justify-center p-3.5 overflow-hidden">
+          <div className="absolute -inset-2 rounded-3xl bg-gradient-to-tr from-purple-600/40 to-indigo-500/30 blur-xl animate-pulse" />
+          <div className="relative w-24 h-24 sm:w-28 sm:h-28 rounded-3xl bg-slate-900/90 border border-purple-500/30 shadow-2xl flex items-center justify-center p-3 overflow-hidden">
             <img
               src="/logo.png"
               alt="Planix Logo"

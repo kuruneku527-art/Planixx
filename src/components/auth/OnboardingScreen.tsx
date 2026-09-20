@@ -183,11 +183,11 @@ export const OnboardingScreen: React.FC<OnboardingScreenProps> = ({ onComplete }
       {/* 1. TOP HEADER: MINIMAL & COMPACT */}
       <header className="w-full max-w-2xl mx-auto px-3 py-1 shrink-0 flex items-center justify-between z-20 border-b border-slate-900">
         <div className="flex items-center gap-2">
-          <div className="w-7 h-7 rounded-lg bg-slate-900 border border-purple-500/40 p-0.5 flex items-center justify-center shrink-0">
+          <div className="w-7 h-7 rounded-lg bg-purple-500/10 dark:bg-purple-950/50 border border-purple-300/60 dark:border-purple-500/40 p-0.5 flex items-center justify-center shrink-0 shadow-sm">
             <img
               src="/logo.png"
               alt="Planix"
-              className="w-full h-full object-contain"
+              className="w-full h-full object-contain drop-shadow-sm"
               referrerPolicy="no-referrer"
             />
           </div>

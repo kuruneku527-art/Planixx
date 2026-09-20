@@ -174,12 +174,7 @@ const MainLayout: React.FC = () => {
 
 const AppContent: React.FC = () => {
   const { settings } = useApp();
-  const [isSplashDone, setIsSplashDone] = React.useState<boolean>(() => {
-    if (typeof window !== 'undefined') {
-      return sessionStorage.getItem('planix_splash_shown') === 'true';
-    }
-    return false;
-  });
+  const [isSplashDone, setIsSplashDone] = React.useState<boolean>(false);
 
   // Initialize central Viewport & Safe Area sync across all lifecycle states
   React.useEffect(() => {
@@ -187,17 +182,14 @@ const AppContent: React.FC = () => {
     return cleanup;
   }, []);
 
-  // 1. App Launch: Elegant, smooth Splash Screen (~800ms display + 500ms gentle fade) - only on cold launch, never on resume
+  // 1. App Launch: Instant Splash Screen with crisp logo and zero startup delay
   if (!isSplashDone) {
     return (
       <SplashScreen
         onComplete={() => {
           setIsSplashDone(true);
-          try {
-            sessionStorage.setItem('planix_splash_shown', 'true');
-          } catch {}
         }}
-        minDuration={1800}
+        minDuration={1200}
       />
     );
   }

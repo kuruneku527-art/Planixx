@@ -430,11 +430,11 @@ export const SettingsView: React.FC = () => {
         {/* App Info & Logo Card */}
         <div className="p-6 rounded-2xl bg-slate-900/90 border border-slate-800 flex flex-col sm:flex-row items-center justify-between gap-5">
           <div className="flex flex-col sm:flex-row items-center gap-5">
-            <div className="w-16 h-16 sm:w-20 sm:h-20 rounded-2xl overflow-hidden bg-slate-950 border border-purple-500/30 shadow-xl shadow-purple-900/30 flex items-center justify-center p-2 shrink-0">
+            <div className="w-16 h-16 sm:w-20 sm:h-20 rounded-2xl bg-purple-500/10 dark:bg-purple-950/40 border border-purple-200/80 dark:border-purple-500/30 shadow-lg shadow-purple-500/10 dark:shadow-purple-900/30 flex items-center justify-center p-2.5 shrink-0">
               <img
                 src="/logo.png"
                 alt="لوگوی Planix"
-                className="w-full h-full object-contain"
+                className="w-full h-full object-contain drop-shadow-md"
                 referrerPolicy="no-referrer"
               />
             </div>

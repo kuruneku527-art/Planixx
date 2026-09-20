@@ -62,11 +62,10 @@ export const SplashScreen: React.FC<SplashScreenProps> = ({
           <div className="absolute -inset-1 rounded-3xl bg-gradient-to-tr from-purple-600 to-indigo-500 opacity-60 blur-md animate-pulse" />
           <div className="relative w-24 h-24 sm:w-28 sm:h-28 rounded-3xl bg-slate-900 border border-purple-500/40 shadow-2xl flex items-center justify-center p-3.5 overflow-hidden">
             <img
-              src="./logo.png"
-              alt="پلنر"
+              src="/logo.png"
+              alt="Planix"
               className="w-full h-full object-contain rounded-2xl drop-shadow-md"
               onError={(e) => {
-                // Fallback if logo fails
                 (e.target as HTMLElement).style.display = 'none';
               }}
             />

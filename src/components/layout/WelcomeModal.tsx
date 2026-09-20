@@ -51,11 +51,11 @@ export const WelcomeModal: React.FC = () => {
           <div className="space-y-4 py-2">
             {/* Mascot Introduction */}
             <div className="flex items-center justify-center gap-3">
-              <div className="w-16 h-16 rounded-2xl overflow-hidden bg-slate-950 border border-purple-500/40 shadow-xl shadow-purple-900/50 flex items-center justify-center">
+              <div className="w-16 h-16 rounded-2xl bg-purple-500/10 dark:bg-purple-950/40 border border-purple-200/80 dark:border-purple-500/40 shadow-xl shadow-purple-500/10 dark:shadow-purple-900/50 flex items-center justify-center p-2.5">
                 <img
                   src="/logo.png"
                   alt="لوگوی Planix"
-                  className="w-full h-full object-cover"
+                  className="w-full h-full object-contain drop-shadow-md"
                   referrerPolicy="no-referrer"
                 />
               </div>
