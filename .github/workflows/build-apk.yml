@@ -34,164 +34,124 @@ jobs:
 
       - name: Setup Gradle
         uses: gradle/actions/setup-gradle@v6
-        with:
-          add-job-summary: on-failure
 
       - name: Verify project structure
         shell: bash
         run: |
           set -e
+
+          echo "Checking project structure..."
+
           test -f package.json
           test -d android
           test -f android/gradlew
           test -d android/app
+
           echo "Project structure OK."
 
       - name: Install dependencies
         shell: bash
-        run: npm install --no-audit --no-fund --verbose
+        run: |
+          npm install --no-audit --no-fund
 
       - name: Verify Capacitor
         shell: bash
-        run: npx cap --version
+        run: |
+          npx cap --version
 
       - name: Build web application
-        id: build_web
-        shell: bash
-        continue-on-error: true
-        run: |
-          set +e
-          npm run build 2>&1 | tee web-build.log
-          BUILD_EXIT_CODE=${PIPESTATUS[0]}
-          echo "WEB BUILD EXIT CODE: $BUILD_EXIT_CODE"
-          exit $BUILD_EXIT_CODE
-
-      - name: Show Web Build Log
-        if: always()
         shell: bash
         run: |
-          if [ -f web-build.log ]; then cat web-build.log; else echo "web-build.log was not created."; fi
-
-      - name: Upload web build debug log
-        if: always()
-        uses: actions/upload-artifact@v4
-        with:
-          name: web-build-debug-log
-          path: web-build.log
-          if-no-files-found: warn
-          retention-days: 14
-
-      - name: Stop if web build failed
-        if: steps.build_web.outcome == 'failure'
-        shell: bash
-        run: exit 1
+          npm run build
 
       - name: Verify web build
         shell: bash
         run: |
           set -e
+
           test -f dist/index.html
+
+          echo "Web build verified."
           find dist -maxdepth 3 -type f -print
 
       - name: Sync Capacitor
         shell: bash
-        run: npx cap sync android
+        run: |
+          npx cap sync android
 
       - name: Configure Android SDK
         shell: bash
         run: |
           set -e
+
           if [ -n "$ANDROID_HOME" ]; then
-            echo "sdk.dir=$ANDROID_HOME" > android/local.properties
+            SDK_PATH="$ANDROID_HOME"
           elif [ -n "$ANDROID_SDK_ROOT" ]; then
-            echo "sdk.dir=$ANDROID_SDK_ROOT" > android/local.properties
+            SDK_PATH="$ANDROID_SDK_ROOT"
           else
             echo "ERROR: Android SDK environment variable was not found."
             exit 1
           fi
+
+          echo "sdk.dir=$SDK_PATH" > android/local.properties
+
+          echo "Android SDK:"
           cat android/local.properties
 
-      - name: Configure Gradle 8.6
+      - name: Prepare Gradle
         shell: bash
         run: |
           set -e
-          cd android
-          chmod +x gradlew
-          ./gradlew wrapper --gradle-version 8.6 --distribution-type bin
-          grep "distributionUrl" gradle/wrapper/gradle-wrapper.properties
 
-      - name: Verify Java and Gradle
-        shell: bash
-        run: |
-          set -e
-          java -version
           cd android
+
           chmod +x gradlew
+
+          echo "Gradle wrapper:"
+          grep "distributionUrl" gradle/wrapper/gradle-wrapper.properties || true
+
+          echo "Gradle version:"
           ./gradlew --version
 
       - name: Build Debug APK
-        id: build_apk
         working-directory: android
         shell: bash
-        continue-on-error: true
         run: |
-          set +e
+          set -e
+
+          chmod +x gradlew
+
           ./gradlew assembleDebug \
             --stacktrace \
             --info \
             --console=plain \
             --warning-mode=all \
-            --no-daemon 2>&1 | tee ../gradle-build.log
-          BUILD_EXIT_CODE=${PIPESTATUS[0]}
-          echo "GRADLE EXIT CODE: $BUILD_EXIT_CODE"
-          exit $BUILD_EXIT_CODE
-
-      - name: Show Gradle build log
-        if: always()
-        shell: bash
-        run: |
-          if [ -f gradle-build.log ]; then cat gradle-build.log; else echo "gradle-build.log was not created."; fi
-
-      - name: Show Android error reports
-        if: always()
-        shell: bash
-        run: |
-          find android -type f \( -name "*.log" -o -name "*.html" -o -name "*.txt" \) -path "*build*" -print || true
-
-      - name: Upload Gradle debug logs
-        if: always()
-        uses: actions/upload-artifact@v4
-        with:
-          name: gradle-debug-logs
-          path: |
-            gradle-build.log
-            android/**/build/reports/**
-            android/**/build/outputs/logs/**
-          if-no-files-found: warn
-          retention-days: 14
+            --no-daemon
 
       - name: Verify APK
-        if: steps.build_apk.outcome == 'success'
         shell: bash
         run: |
           set -e
-          APK=$(find android/app/build/outputs/apk/debug -type f -name "*.apk" | head -n 1)
+
+          APK=$(find android/app/build/outputs/apk/debug \
+            -type f \
+            -name "*.apk" \
+            | head -n 1)
+
           if [ -z "$APK" ]; then
-            find android -type f -name "*.apk" -print
+            echo "ERROR: APK was not generated."
+            echo "Searching entire android directory..."
+            find android -type f -name "*.apk" -print || true
             exit 1
           fi
+
+          echo "APK generated successfully:"
           ls -lh "$APK"
 
       - name: Upload APK
-        if: steps.build_apk.outcome == 'success'
         uses: actions/upload-artifact@v4
         with:
           name: Planix-debug-apk
           path: android/app/build/outputs/apk/debug/*.apk
           if-no-files-found: error
           retention-days: 14
-
-      - name: Fail workflow if Gradle failed
-        if: steps.build_apk.outcome == 'failure'
-        shell: bash
-        run: exit 1
